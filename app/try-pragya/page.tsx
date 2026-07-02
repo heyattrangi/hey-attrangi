@@ -185,7 +185,7 @@ export default function TryPragyaPage() {
                         ...prev,
                         {
                             role: "assistant",
-                            content: "You've reached your daily limit of 5 chats. Please login to continue chatting and unlock more features!" as any,
+                            content: "You've reached your daily limit of 50 chats. Please login to continue chatting and unlock more features!" as any,
                             isError: true
                         }
                     ]);
@@ -378,7 +378,7 @@ export default function TryPragyaPage() {
                                     </div>
                                     <h2 className="text-2xl font-bold text-gray-800 mb-3">Limit Reached</h2>
                                     <p className="text-gray-500 mb-8 font-medium">
-                                        You've used all 5 free chats for today. Unlock unlimited conversations by logging in!
+                                        You've used all 50 free chats for today. Unlock unlimited conversations by logging in!
                                     </p>
                                     <div className="space-y-4">
                                         <a
