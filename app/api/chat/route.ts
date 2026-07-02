@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
                 );
             } else {
                 // Within 24 hours
-                if (visitor.count >= 5) {
+                if (visitor.count >= 50) {
                     return NextResponse.json({ error: "LIMIT_REACHED" }, { status: 429 });
                 }
                 // Increment count
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
 
         // Get updated count for "remaining"
         const updatedVisitor = await visitors.findOne({ visitor_id });
-        const remaining = 5 - (updatedVisitor?.count || 0);
+        const remaining = 50 - (updatedVisitor?.count || 0);
 
         // Proxy to Bot API
         try {
