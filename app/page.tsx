@@ -518,7 +518,7 @@ export default function Home() {
                     Start Mind Check
                   </Link>
                   <Link
-                    href="/try-pragya"
+                    href="https://app-heyattrangi.vercel.app/patient/dashboard"
                     className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap px-5 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base font-bold text-white bg-[#FF6B00] hover:bg-orange-600 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98]"
                   >
                     <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

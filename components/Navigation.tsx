@@ -176,7 +176,7 @@ export default function Navigation({ currentPath = "/" }: NavigationProps) {
               {/* Try Pragya Button */}
               <div className="relative">
                 <Link
-                  href="/try-pragya"
+                  href="https://app-heyattrangi.vercel.app/patient/dashboard"
                   className="bg-white text-orange-600 border border-orange-500 px-5 py-2.5 rounded-full font-bold text-sm shadow-sm hover:bg-orange-50 transition-colors whitespace-nowrap inline-block relative z-10"
                 >
                   Try Pragya
@@ -328,7 +328,7 @@ export default function Navigation({ currentPath = "/" }: NavigationProps) {
               <li>
                 <div className="relative mb-3">
                   <Link
-                    href="/try-pragya"
+                    href="https://app-heyattrangi.vercel.app/patient/dashboard"
                     onClick={() => setMobileMenuOpen(false)}
                     className="w-full block bg-white text-orange-600 border border-orange-500 px-6 py-3 rounded-xl font-bold text-sm shadow-sm text-center relative z-10"
                   >
