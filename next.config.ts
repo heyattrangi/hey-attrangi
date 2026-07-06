@@ -4,6 +4,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/b/chat",
+        destination: "/try-pragya",
+        permanent: true,
+      },
+      {
         source: "/mind-matrix/tests/iq",
         destination: "/mind-matrix",
         permanent: true,

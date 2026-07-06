@@ -132,14 +132,11 @@ export default function TryPragyaPage() {
     // Auto-start animation sequence
     useEffect(() => {
         if (!hasStarted && selectedMode) {
-            const timer = setTimeout(() => {
-                setHasStarted(true);
-                const modeDetails = CHAT_MODES.find(m => m.id === selectedMode);
-                const initialMsg = `Hi! I'm setting my mode to: ${modeDetails?.title}. How can I help you today?`;
-                setMessages([{ role: "assistant", content: initialMsg }]);
-                setBotExpression("NEUTRAL");
-            }, 1100);
-            return () => clearTimeout(timer);
+            setHasStarted(true);
+            const modeDetails = CHAT_MODES.find(m => m.id === selectedMode);
+            const initialMsg = `Hi! I'm setting my mode to: ${modeDetails?.title}. How can I help you today?`;
+            setMessages([{ role: "assistant", content: initialMsg }]);
+            setBotExpression("NEUTRAL");
         }
     }, [hasStarted, selectedMode]);
 
@@ -167,16 +164,13 @@ export default function TryPragyaPage() {
         setIsLoading(true);
 
         try {
-            const fetchPromise = fetch("/api/chat", {
+            const res = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ visitor_id: visitorId, message: userMsg }),
             });
-            const delayPromise = new Promise(resolve => setTimeout(resolve, 2000));
 
-            const [res] = await Promise.all([fetchPromise, delayPromise]);
-
-            const data = await (res as Response).json();
+            const data = await res.json();
 
             if (!res.ok) {
                 if (data.error === "LIMIT_REACHED") {
