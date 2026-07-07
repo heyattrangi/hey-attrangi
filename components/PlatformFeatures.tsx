@@ -34,7 +34,7 @@ const features = [
     shortTitle: "Pragya AI",
     description: "Your personal, 24/7 mental health companion that listens, reflects, and helps you navigate your daily emotional landscape.",
     buttonText: "Meet Pragya",
-    buttonLink: "https://app-heyattrangi.vercel.app/patient/dashboard",
+    buttonLink: "https://app-heyattrangi.vercel.app",
     capabilities: [
       "Conversational AI chat",
       "Voice mode interactions",
