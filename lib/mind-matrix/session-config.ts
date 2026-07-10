@@ -12,9 +12,6 @@
  * - `app/api/test/finish` — scores against these totals
  * - `lib/mind-matrix/scoring.ts` — accuracy (70%) + time left (30%)
  * - `components/mind-matrix/VisualTestEngine.tsx` — entry copy and timer UI
- *
- * Note: In TypeScript/JavaScript use `/** … */` for multi-line comments (docstrings).
- * Python-style `'''Comment'''` or `"""Comment"""` does not work in this codebase.
  */
 export const MIND_MATRIX_TOTAL_QUESTIONS = 12;
 export const MIND_MATRIX_TOTAL_TIME_SECONDS = 180;
