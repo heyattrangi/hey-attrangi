@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { redirect } from "next/navigation";
+import { MIND_MATRIX_VISIBLE } from "@/lib/mind-matrix/feature-flag";
 
 export const metadata: Metadata = {
     title: "Mind Matrix",
@@ -15,5 +17,9 @@ export const metadata: Metadata = {
 };
 
 export default function MindMatrixLayout({ children }: { children: ReactNode }) {
+    if (!MIND_MATRIX_VISIBLE) {
+        redirect("/");
+    }
+
     return children;
 }

@@ -14,8 +14,20 @@ import {
     Flower2,
     ArrowRight,
     LayoutGrid,
-    Search
+    ChevronDown
 } from 'lucide-react';
+import Image from 'next/image';
+
+/** Uniform vertical gap between cards, View More, image strip, and footer. */
+const SECTION_STACK_GAP = "gap-8";
+
+const partnerSlideImages = [
+    { src: "/images/caregiver.jpg", alt: "Mental health caregiver support" },
+    { src: "/images/therapist.png", alt: "Professional therapy support" },
+    { src: "/images/service1.jpg", alt: "Hey Attrangi care services" },
+    { src: "/images/src6-3.jpeg", alt: "Student mental wellness" },
+    { src: "/images/src12.jpg", alt: "Community mental health" },
+];
 
 type ConcernTheme = {
     bg: string;
@@ -193,20 +205,22 @@ const MentalHealthConcerns = () => {
     const allConcerns = categories.flatMap(c => c.concerns);
 
     return (
-        <section className="bg-white py-20 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
+        <section className="bg-white pt-20 pb-0 px-4 sm:px-6 lg:px-8">
+            <div className={`max-w-7xl mx-auto flex flex-col ${SECTION_STACK_GAP}`}>
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10"
+                    className="flex flex-col md:flex-row md:items-end justify-between gap-4"
                 >
                     <div>
+                        {/* Discover Support badge — hidden for now
                         <div className="inline-flex items-center gap-2 bg-orange-50 rounded-full px-4 py-1.5 text-xs font-bold text-orange-600 uppercase tracking-wide mb-4">
                             <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
                             Discover Support
                         </div>
+                        */}
                         <h2 className="text-3xl md:text-4xl font-bold text-[#1a2b3c] mb-3">
                             Conditions we support
                         </h2>
@@ -214,14 +228,10 @@ const MentalHealthConcerns = () => {
                             Find specialized care, understanding, and tailored approaches for your mental health journey.
                         </p>
                     </div>
-                    <Link href="/conditions" className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-[#1a2b3c] px-6 py-2.5 rounded-full font-bold transition-all shadow-sm hover:shadow border border-gray-200 whitespace-nowrap text-sm">
-                        <Search className="w-4 h-4 text-orange-500" />
-                        View all conditions
-                    </Link>
                 </motion.div>
 
-                {/* Horizontal Scroll Container */}
-                <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                {/* Condition cards */}
+                <div className="flex overflow-x-auto gap-6 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                     {allConcerns.map((concern, index) => (
                         <motion.div
                             key={index}
@@ -252,6 +262,35 @@ const MentalHealthConcerns = () => {
                                 </div>
                             </Link>
                         </motion.div>
+                    ))}
+                </div>
+
+                {/* View More */}
+                <div className="flex justify-center">
+                    <Link
+                        href="/conditions"
+                        className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-[#1a2b3c] px-8 py-3 rounded-full font-bold text-sm transition-all shadow-sm hover:shadow border border-gray-200"
+                    >
+                        View More
+                        <ChevronDown className="w-4 h-4 text-orange-500" />
+                    </Link>
+                </div>
+
+                {/* Image strip */}
+                <div className="flex justify-center gap-4 sm:gap-5 overflow-x-auto scrollbar-hide px-2 sm:px-0">
+                    {partnerSlideImages.map((img) => (
+                        <div
+                            key={img.src}
+                            className="relative shrink-0 w-[88px] h-[88px] sm:w-[110px] sm:h-[110px] md:w-[128px] md:h-[128px] rounded-2xl overflow-hidden border border-gray-100 shadow-sm"
+                        >
+                            <Image
+                                src={img.src}
+                                alt={img.alt}
+                                fill
+                                className="object-cover"
+                                sizes="128px"
+                            />
+                        </div>
                     ))}
                 </div>
             </div>

@@ -1,6 +1,7 @@
-/** Mind Matrix fixed session shape (matches API config). */
-export const MIND_MATRIX_TOTAL_QUESTIONS = 12;
-export const MIND_MATRIX_TOTAL_TIME_SECONDS = 180;
+export {
+    MIND_MATRIX_TOTAL_QUESTIONS,
+    MIND_MATRIX_TOTAL_TIME_SECONDS,
+} from "./session-config";
 
 /**
  * Mind Matrix score: accuracy (70%) + global time left (30%).

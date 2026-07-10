@@ -3,6 +3,10 @@ import {
     parseMindMatrixReportData,
     type MindMatrixReportData,
 } from '@/lib/mind-matrix/report-payload';
+import {
+    MIND_MATRIX_SELECTION_MODE,
+    MIND_MATRIX_TOTAL_TIME_SECONDS,
+} from '@/lib/mind-matrix/session-config';
 
 interface UseTestSessionProps {
     userId?: string;
@@ -101,14 +105,14 @@ export function useTestSession({ userId, age }: UseTestSessionProps) {
             if (data.config) {
                 setSessionConfig({
                     totalQuestions: data.config.totalQuestions ?? data.questions.length,
-                    timeLimitSeconds: data.config.timeLimitSeconds ?? 180,
-                    selectionMode: data.config.selectionMode ?? 'random_balanced',
+                    timeLimitSeconds: data.config.timeLimitSeconds ?? MIND_MATRIX_TOTAL_TIME_SECONDS,
+                    selectionMode: data.config.selectionMode ?? MIND_MATRIX_SELECTION_MODE,
                 });
             } else {
                 setSessionConfig({
                     totalQuestions: data.questions.length,
-                    timeLimitSeconds: 180,
-                    selectionMode: 'random_balanced',
+                    timeLimitSeconds: MIND_MATRIX_TOTAL_TIME_SECONDS,
+                    selectionMode: MIND_MATRIX_SELECTION_MODE,
                 });
             }
             setStatus('RUNNING');
@@ -158,7 +162,7 @@ export function useTestSession({ userId, age }: UseTestSessionProps) {
         currentIndex: currentQuestionIndex,
         results,
         sessionConfig,
-        timeLimitSeconds: sessionConfig?.timeLimitSeconds ?? 180,
+        timeLimitSeconds: sessionConfig?.timeLimitSeconds ?? MIND_MATRIX_TOTAL_TIME_SECONDS,
         startTest,
         submitAnswer,
         finishTest,

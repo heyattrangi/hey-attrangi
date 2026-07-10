@@ -27,8 +27,6 @@ export default function ResourcesPage() {
   const [loading, setLoading] = useState(true);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [selectedType, setSelectedType] = useState<string>("all");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   useEffect(() => {
     fetchResources();
@@ -86,14 +84,7 @@ export default function ResourcesPage() {
     }
   };
 
-  const filteredResources = resources.filter(resource => {
-    const typeMatch = selectedType === "all" || resource.type === selectedType;
-    const categoryMatch = selectedCategory === "all" || resource.category === selectedCategory;
-    return typeMatch && categoryMatch;
-  });
-
-  const categories = Array.from(new Set(resources.map(r => r.category).filter(Boolean)));
-  const types = Array.from(new Set(resources.map(r => r.type)));
+  const filteredResources = resources;
 
   // Amaha Style Featured Resource Card
   const FeaturedResourceCard = ({ resource }: { resource: Resource }) => (
@@ -170,45 +161,55 @@ export default function ResourcesPage() {
     </Link>
   );
 
+  // Grid card for "Find more resources" section — stacks thumbnail on top, text below
+  const MoreResourceCard = ({ resource }: { resource: Resource }) => (
+    <Link href={`/resources/${resource.slug}`} className="group flex flex-col bg-white rounded-[24px] overflow-hidden shadow-sm border border-gray-100/50 hover:shadow-md transition-shadow duration-300">
+      <div className="relative w-full h-[160px] overflow-hidden bg-[#e8e4db] shrink-0">
+        {resource.thumbnail ? (
+          <img
+            src={resource.thumbnail}
+            alt={resource.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-gray-400 text-4xl">{getTypeIcon(resource.type)}</span>
+          </div>
+        )}
+      </div>
+      <div className="p-5 flex flex-col flex-grow">
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
+          <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">{resource.type}</span>
+          {resource.category && (
+            <>
+              <span className="text-gray-300">•</span>
+              <span className={`px-2 py-0.5 text-[11px] font-semibold rounded-md tracking-wide ${getTypeColor(resource.type)}`}>
+                {resource.category}
+              </span>
+            </>
+          )}
+        </div>
+        <h3 className="text-base font-bold text-gray-800 group-hover:text-orange-600 transition-colors leading-snug line-clamp-3" style={{ fontFamily: 'Poppins, sans-serif' }}>
+          {resource.title}
+        </h3>
+        {resource.description && (
+          <p className="text-gray-500 text-sm mt-2 line-clamp-2 leading-relaxed">{resource.description}</p>
+        )}
+      </div>
+    </Link>
+  );
+
   return (
     <div className="min-h-screen bg-[#FFF4EF] flex flex-col font-sans">
       <Navigation currentPath="/resources" />
 
       <main className="flex-grow pt-8 pb-24">
 
-        {/* Amaha Style Header Area & Filters */}
+        {/* Header */}
         <section className="px-4 sm:px-6 lg:px-8 max-w-[1240px] mx-auto mt-12 mb-10">
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
-            <h1 className="text-3xl md:text-[34px] font-bold text-gray-800 tracking-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              Your Go-To Mental Well-being Resources
-            </h1>
-
-            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-              {/* Type Filter */}
-              <select
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className="py-3.5 px-4 rounded-xl border-none shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-orange-200 text-gray-700 bg-white"
-              >
-                <option value="all">All Types</option>
-                {types.map(type => (
-                  <option key={type} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
-                ))}
-              </select>
-
-              {/* Category Filter */}
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="py-3.5 px-4 rounded-xl border-none shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-orange-200 text-gray-700 bg-white"
-              >
-                <option value="all">All Categories</option>
-                {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
-                ))}
-              </select>
-            </div>
-          </div>
+          <h1 className="text-3xl md:text-[34px] font-bold text-gray-800 tracking-tight mb-8" style={{ fontFamily: 'Poppins, sans-serif' }}>
+            Your Go-To Mental Well-being Resources
+          </h1>
         </section>
 
         {/* Resources Grid */}
@@ -221,7 +222,7 @@ export default function ResourcesPage() {
             <div className="text-center py-20 bg-white rounded-[24px] shadow-sm">
               <div className="text-gray-400 text-6xl mb-4">📚</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No resources found</h3>
-              <p className="text-gray-600">Try adjusting your filters or check back later for new content.</p>
+              <p className="text-gray-600">Check back later for new content.</p>
             </div>
           </section>
         ) : (
@@ -263,32 +264,12 @@ export default function ResourcesPage() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                  {/* Reuse the same 1-large 2-small pattern if we have enough resources, otherwise use compact cards */}
-                  {filteredResources.length > 3 && (
-                    <div className="lg:col-span-4 flex flex-col gap-6">
-                      <CompactResourceCard resource={filteredResources[3]} />
-                      {filteredResources.length > 4 && <CompactResourceCard resource={filteredResources[4]} />}
-                    </div>
-                  )}
-
-                  {filteredResources.length > 5 && (
-                    <div className="lg:col-span-8 flex flex-col gap-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <CompactResourceCard resource={filteredResources[5]} />
-                        {filteredResources.length > 6 && <CompactResourceCard resource={filteredResources[6]} />}
-                      </div>
-                    </div>
-                  )}
+                {/* Responsive auto grid — 1 col on mobile, 2 on md, 3 on lg */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredResources.slice(3).map((resource) => (
+                    <MoreResourceCard key={resource.id} resource={resource} />
+                  ))}
                 </div>
-
-                {filteredResources.length > 7 && (
-                  <div className="flex justify-center mt-10">
-                    <button className="px-8 py-3 bg-[#e86c4c] text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-orange-600 transition-colors shadow-sm">
-                      View All Resources
-                    </button>
-                  </div>
-                )}
               </div>
             )}
           </section>

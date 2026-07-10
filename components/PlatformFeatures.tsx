@@ -31,17 +31,15 @@ const features = [
     id: "ai-companion",
     icon: MessageSquare,
     title: "Virtual Companion",
-    shortTitle: "Pragya AI",
+    shortTitle: "Hey Attrangi",
     description: "Your personal, 24/7 mental health companion that listens, reflects, and helps you navigate your daily emotional landscape.",
     buttonText: "Meet Pragya",
     buttonLink: "https://app-heyattrangi.vercel.app",
     capabilities: [
       "Conversational AI chat",
-      "Voice mode interactions",
       "Live mood indicators",
       "AI memory for context",
-      "Suggested daily prompts",
-      "Quick action check-ins"
+      "Quick action check-ins",
     ]
   },
   {
@@ -134,57 +132,67 @@ const features = [
 // --- Mockup Components ---
 
 const AICompanionMockup = () => (
-  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-rose-100 p-6 sm:p-10">
-    <div className="w-full max-w-[280px] aspect-[9/19] bg-white rounded-[40px] shadow-2xl border-8 border-gray-900 overflow-hidden flex flex-col relative">
-      {/* Top Bar */}
-      <div className="bg-orange-50 px-4 py-5 flex items-center justify-between border-b border-orange-100 shrink-0 pt-8">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center">
-            <span className="text-orange-600 font-bold text-sm">P</span>
-          </div>
-          <div>
-            <h4 className="text-sm font-bold text-gray-900 leading-tight">Pragya AI</h4>
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 rounded-full bg-green-500"></div>
-              <span className="text-[10px] text-gray-500">Online • Feeling calm</span>
-            </div>
+  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-50 via-rose-50 to-orange-100 p-6 sm:p-8">
+    {/* Phone shell */}
+    <div className="w-[240px] sm:w-[260px] bg-white rounded-[32px] shadow-2xl border-[6px] border-gray-900 overflow-hidden flex flex-col" style={{ maxHeight: "420px" }}>
+      
+      {/* Notch */}
+      <div className="bg-gray-900 h-5 flex items-center justify-center shrink-0">
+        <div className="w-16 h-2 bg-gray-800 rounded-full"></div>
+      </div>
+
+      {/* Chat header */}
+      <div className="bg-white px-3 py-2.5 flex items-center gap-2 border-b border-gray-100 shrink-0">
+        <div className="w-7 h-7 rounded-full bg-orange-200 flex items-center justify-center shrink-0">
+          <span className="text-orange-600 font-bold text-xs">H</span>
+        </div>
+        <div className="min-w-0">
+          <h4 className="text-[12px] font-bold text-gray-900 leading-tight truncate">Hey Attrangi</h4>
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0"></div>
+            <span className="text-[9px] text-gray-500">Online · Feeling calm</span>
           </div>
         </div>
       </div>
-      
-      {/* Chat Area */}
-      <div className="flex-1 p-4 flex flex-col gap-4 bg-[#faf9f6] overflow-hidden">
-        <div className="self-start max-w-[85%] bg-white border border-gray-100 p-3 rounded-2xl rounded-tl-sm shadow-sm">
-          <p className="text-[11px] text-gray-700">Hi there! I noticed you were feeling a bit stressed about exams yesterday. How are you holding up today?</p>
+
+      {/* Chat messages */}
+      <div className="flex-1 px-3 py-3 flex flex-col gap-2.5 bg-[#faf9f6] overflow-hidden">
+        {/* AI message */}
+        <div className="self-start max-w-[85%] bg-white border border-gray-100 px-3 py-2 rounded-2xl rounded-tl-sm shadow-sm">
+          <p className="text-[10px] text-gray-700 leading-relaxed">Hi there! I noticed you were feeling a bit stressed about exams yesterday. How are you holding up today?</p>
         </div>
-        <div className="self-end max-w-[85%] bg-orange-500 p-3 rounded-2xl rounded-tr-sm shadow-sm">
-          <p className="text-[11px] text-white">Still a bit overwhelmed, to be honest. There's just so much to read.</p>
+        {/* User message */}
+        <div className="self-end max-w-[80%] bg-orange-500 px-3 py-2 rounded-2xl rounded-tr-sm shadow-sm">
+          <p className="text-[10px] text-white leading-relaxed">Still a bit overwhelmed, to be honest. There's just so much to read.</p>
         </div>
-        <div className="self-start max-w-[85%] bg-white border border-gray-100 p-3 rounded-2xl rounded-tl-sm shadow-sm relative">
-          <p className="text-[11px] text-gray-700">It's completely normal to feel that way. Let's break it down. Would you like to try a quick 2-minute breathing exercise first?</p>
-          <div className="absolute -bottom-3 -right-2 bg-rose-100 rounded-full p-1 border border-white shadow-sm">
-             <Smile className="w-3 h-3 text-rose-500" />
+        {/* AI message */}
+        <div className="self-start max-w-[85%] bg-white border border-gray-100 px-3 py-2 rounded-2xl rounded-tl-sm shadow-sm relative">
+          <p className="text-[10px] text-gray-700 leading-relaxed">It's completely normal to feel that way. Let's break it down. Would you like to try a quick 2-minute breathing exercise first?</p>
+          <div className="absolute -bottom-2.5 -right-1.5 bg-rose-100 rounded-full p-0.5 border border-white shadow-sm">
+            <Smile className="w-2.5 h-2.5 text-rose-500" />
           </div>
         </div>
-        
-        {/* Suggested Prompts */}
-        <div className="mt-auto flex flex-col gap-2">
-          <div className="bg-orange-50 border border-orange-100 rounded-xl p-2 text-center text-[10px] font-medium text-orange-700 cursor-pointer">Yes, let's breathe.</div>
-          <div className="bg-orange-50 border border-orange-100 rounded-xl p-2 text-center text-[10px] font-medium text-orange-700 cursor-pointer">Help me make a study plan.</div>
+
+        {/* Quick replies */}
+        <div className="mt-auto flex flex-col gap-1.5 pt-1">
+          <div className="bg-orange-50 border border-orange-100 rounded-xl px-3 py-1.5 text-center text-[10px] font-semibold text-orange-600">Yes, let's breathe.</div>
+          <div className="bg-orange-50 border border-orange-100 rounded-xl px-3 py-1.5 text-center text-[10px] font-semibold text-orange-600">Help me make a study plan.</div>
         </div>
       </div>
-      
-      {/* Input Area */}
-      <div className="bg-white p-3 border-t border-gray-100 flex items-center gap-2 shrink-0">
-        <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
+
+      {/* Input bar */}
+      <div className="bg-white px-3 py-2.5 border-t border-gray-100 flex items-center gap-2 shrink-0">
+        <div className="flex-1 bg-gray-100 rounded-full h-7 flex items-center px-3">
+          <span className="text-[10px] text-gray-400">Message Hey Attrangi...</span>
         </div>
-        <div className="flex-1 bg-gray-100 rounded-full h-8 flex items-center px-3">
-          <span className="text-[11px] text-gray-400">Message Pragya...</span>
+        <div className="w-7 h-7 rounded-full bg-orange-500 flex items-center justify-center shrink-0">
+          <Mic className="w-3 h-3 text-white" />
         </div>
-        <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center shrink-0">
-          <Mic className="w-4 h-4 text-white" />
-        </div>
+      </div>
+
+      {/* Home indicator */}
+      <div className="bg-gray-900 h-4 flex items-center justify-center shrink-0">
+        <div className="w-20 h-1 bg-gray-700 rounded-full"></div>
       </div>
     </div>
   </div>
@@ -468,7 +476,7 @@ export default function PlatformFeatures() {
            </p>
         </div>
 
-        {/* Custom Tabs Navigation */}
+        {/* Custom Tabs Navigation — hidden for now
         <div className="flex justify-center mb-8 sm:mb-12">
           <div className="inline-flex flex-wrap justify-center gap-1.5 sm:gap-2 bg-gray-50/80 backdrop-blur-md p-1.5 rounded-2xl sm:rounded-full border border-gray-100 shadow-sm max-w-full overflow-x-auto scrollbar-none">
             {features.map((feature, idx) => {
@@ -496,6 +504,7 @@ export default function PlatformFeatures() {
             })}
           </div>
         </div>
+        */}
 
         {/* Content Container */}
         <div className="bg-white rounded-[32px] sm:rounded-[40px] md:rounded-[48px] shadow-xl border border-gray-100 overflow-hidden relative">
@@ -522,19 +531,21 @@ export default function PlatformFeatures() {
                        {activeFeature.title}
                     </h3>
                     
-                    <p className="text-base sm:text-lg text-gray-500 leading-relaxed mb-8">
+                    <p className="text-base sm:text-lg text-gray-500 leading-relaxed mb-6">
                        {activeFeature.description}
                     </p>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-10 mt-auto">
+
+                    {/* Feature checklist */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                        {activeFeature.capabilities.map((cap, i) => (
                          <div key={i} className="flex items-start gap-2.5">
-                           <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+                           <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
                            <span className="text-sm font-medium text-gray-700">{cap}</span>
                          </div>
                        ))}
                     </div>
                     
+                    {/* CTA button — hidden for now (Meet Pragya, etc.)
                     <div>
                       <Link 
                         href={activeFeature.buttonLink}
@@ -544,6 +555,7 @@ export default function PlatformFeatures() {
                          <ArrowRight className="w-4 h-4" />
                       </Link>
                     </div>
+                    */}
                  </motion.div>
                </AnimatePresence>
              </div>

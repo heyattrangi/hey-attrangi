@@ -108,7 +108,6 @@ export default function ResourceDetailPage() {
     return (
       <div className="min-h-screen bg-orange-50">
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <div className="text-gray-400 text-6xl mb-4">📄</div>
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Resource Not Found</h1>
           <p className="text-gray-600 mb-8">{error || "The resource you're looking for doesn't exist."}</p>
           <Link 
@@ -176,47 +175,42 @@ export default function ResourceDetailPage() {
                 </div>
               )}
               
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center space-x-2">
-                  <span className="text-2xl">{getTypeIcon(resource.type)}</span>
-                  <span className={`px-3 py-1 text-xs font-semibold rounded-full ${getTypeColor(resource.type)}`}>
-                    {resource.type}
-                  </span>
-                </div>
+              {/* Title row */}
+              <div className="flex items-start justify-between gap-4 mb-3">
+                <h1 className="text-3xl font-bold text-gray-900 leading-tight" style={{fontFamily: 'Poppins, sans-serif'}}>
+                  {resource.title}
+                </h1>
                 {resource.featured && (
-                  <span className="px-3 py-1 text-xs font-semibold rounded-full bg-orange-500 text-white">
+                  <span className="shrink-0 px-3 py-1 text-xs font-semibold rounded-full bg-orange-500 text-white">
                     ⭐ Featured
                   </span>
                 )}
               </div>
 
-              <h1 className="text-3xl font-bold text-gray-900 mb-3" style={{fontFamily: 'Poppins, sans-serif'}}>
-                {resource.title}
-              </h1>
-
-              <p className="text-base text-gray-600 mb-4 leading-relaxed">
+              <p className="text-base text-gray-500 mb-5 leading-relaxed">
                 {resource.description}
               </p>
 
-              <div className="flex flex-wrap items-center gap-3 pb-4 mb-4 border-b border-gray-200">
+              {/* Meta row */}
+              <div className="flex flex-wrap items-center gap-3 pb-5 mb-5 border-b border-gray-100">
                 {resource.category && (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-orange-50 text-orange-700 text-sm font-medium">
-                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-orange-50 text-orange-600 text-sm font-medium">
+                    <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                     </svg>
                     {resource.category}
                   </span>
                 )}
-                <span className="inline-flex items-center text-gray-500 text-sm">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="inline-flex items-center text-gray-400 text-sm gap-1">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
                   {resource.views} views
                 </span>
                 {resource.author && (
-                  <span className="inline-flex items-center text-gray-500 text-sm">
-                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="inline-flex items-center text-gray-400 text-sm gap-1">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                     {resource.author}
@@ -227,7 +221,7 @@ export default function ResourceDetailPage() {
               {resource.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {resource.tags.map((tag, index) => (
-                    <span key={index} className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-md">
+                    <span key={index} className="px-2.5 py-1 text-xs bg-gray-100 text-gray-500 rounded-full">
                       #{tag}
                     </span>
                   ))}
@@ -346,7 +340,6 @@ export default function ResourceDetailPage() {
                       className="block p-3 rounded-lg border border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-all group"
                     >
                       <div className="flex items-start space-x-2 mb-2">
-                        <span className="text-lg">{getTypeIcon(related.type)}</span>
                         <h4 className="text-sm font-semibold text-gray-900 group-hover:text-orange-600 line-clamp-2">
                           {related.title}
                         </h4>

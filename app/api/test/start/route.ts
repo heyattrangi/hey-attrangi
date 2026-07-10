@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from "@/lib/prisma";
-
-/** Mind Matrix: fixed 12-question check-in, 3-minute cap (enforced client-side). */
-const MIND_MATRIX_TOTAL = 12;
-const TIME_LIMIT_SECONDS = 180;
-const SELECTION_MODE = 'random_balanced' as const;
-
-const PER_CATEGORY = 6;
+import {
+    MIND_MATRIX_PER_CATEGORY,
+    MIND_MATRIX_SELECTION_MODE,
+    MIND_MATRIX_TOTAL_QUESTIONS,
+    MIND_MATRIX_TOTAL_TIME_SECONDS,
+} from "@/lib/mind-matrix/session-config";
 
 const EXCLUDED_DOMAINS = new Set([
     'multiple_object_tracking',
@@ -63,7 +62,7 @@ export async function POST(req: Request) {
             (q) => q.domain === 'processing_speed' || q.domain === 'enumeration'
         );
 
-        if (logicPool.length < PER_CATEGORY || processingPool.length < PER_CATEGORY) {
+        if (logicPool.length < MIND_MATRIX_PER_CATEGORY || processingPool.length < MIND_MATRIX_PER_CATEGORY) {
             console.error('Mind Matrix: insufficient pool', {
                 logic: logicPool.length,
                 processing: processingPool.length,
@@ -74,8 +73,8 @@ export async function POST(req: Request) {
             );
         }
 
-        const logicPick = pickRandom(logicPool, PER_CATEGORY);
-        const processingPick = pickRandom(processingPool, PER_CATEGORY);
+        const logicPick = pickRandom(logicPool, MIND_MATRIX_PER_CATEGORY);
+        const processingPick = pickRandom(processingPool, MIND_MATRIX_PER_CATEGORY);
 
         const combined = [...logicPick, ...processingPick];
 
@@ -86,7 +85,7 @@ export async function POST(req: Request) {
             return true;
         });
 
-        if (unique.length !== MIND_MATRIX_TOTAL) {
+        if (unique.length !== MIND_MATRIX_TOTAL_QUESTIONS) {
             console.error('Mind Matrix: duplicate questionIds after selection', unique.length);
             return NextResponse.json(
                 { error: 'Question selection failed. Please try again.' },
@@ -100,9 +99,9 @@ export async function POST(req: Request) {
             sessionId: session.id,
             questions: finalQuestions,
             config: {
-                totalQuestions: MIND_MATRIX_TOTAL,
-                timeLimitSeconds: TIME_LIMIT_SECONDS,
-                selectionMode: SELECTION_MODE,
+                totalQuestions: MIND_MATRIX_TOTAL_QUESTIONS,
+                timeLimitSeconds: MIND_MATRIX_TOTAL_TIME_SECONDS,
+                selectionMode: MIND_MATRIX_SELECTION_MODE,
             },
         });
 

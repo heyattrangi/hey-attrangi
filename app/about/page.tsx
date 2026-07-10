@@ -78,56 +78,6 @@ export default function AboutPage() {
 
 
 
-      {/* Founder Message Section - Floating Design */}
-      <div className="relative mt-48 mb-20 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-[1fr_400px] gap-8 items-start">
-            {/* Left Side - Quote Content */}
-            <div className="space-y-6 relative">
-              {/* Founder Name and Title */}
-              <div className="relative z-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-orange-600 mb-3" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  Dr. Sandesh Sanjeev Phalke
-                </h2>
-                <p
-                  className="text-lg md:text-xl text-gray-700 font-medium"
-                  style={{ fontFamily: 'Poppins, sans-serif' }}
-                >
-                  Founder | Research | Department of Arts, Science & Design
-                </p>
-                <div className="text-gray-600 text-base md:text-lg" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  Ph.D., Indian Institute of Technology Guwahati, India
-                </div>
-
-              </div>
-
-              {/* Quote */}
-              <div className="relative z-10">
-                <blockquote className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 leading-relaxed" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  "Every individual deserves access to mental health support that understands their unique needs.
-                  At Attrangi, we're not just providing services – we're building a community where
-                  individuals can thrive and be their authentic selves."
-                </blockquote>
-              </div>
-            </div>
-
-            {/* Right Side - Floating Image */}
-            <div className="relative">
-              <div className="relative w-96 h-96 lg:w-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl transform -mb-32 z-50">
-                <Image
-                  src="/images/founder2.png"
-                  alt="Dr. Attrangi Founder - Clinical Psychologist and Mental Health Advocate"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
 
       {/* Our Story Section */}
       <section className="py-24 bg-gradient-to-br from-gray-50 to-white relative z-30">

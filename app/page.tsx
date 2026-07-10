@@ -12,6 +12,7 @@ import ScrollingTextMarqueeComponent from "@/components/ScrollingTextMarquee";
 import MentalHealthConcerns from "@/components/MentalHealthConcerns";
 import PlatformFeatures from "@/components/PlatformFeatures";
 import { APP_SIGNIN_URL } from "@/lib/app-urls";
+import { MIND_MATRIX_VISIBLE } from "@/lib/mind-matrix/feature-flag";
 
 interface FeaturedBlog {
   id: string;
@@ -466,11 +467,12 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               {/* Left Column: Content */}
               <div className="lg:col-span-7 flex flex-col justify-center min-w-0">
-                {/* Pill Badge */}
+                {/* Pill Badge — hidden for now
                 <div className="inline-flex items-center gap-2 bg-[#E9ECEF] text-gray-600 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6 w-fit">
                   <span className="w-2 h-2 rounded-full bg-[#FF6B00]"></span>
                   Continuous Mental Health Infrastructure
                 </div>
+                */}
 
                 {/* Main Heading */}
                 <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-[42px] xl:text-[56px] 2xl:text-6xl font-extrabold text-[#111827] leading-[1.12] tracking-tight mb-6">
@@ -478,9 +480,11 @@ export default function Home() {
                   <br />
                   shouldn't start in{" "}
                   <span className="text-[#FF6B00]">crisis.</span>
+                  {/* It should start with continuity. — hidden for now
                   <br />
                   It should start with{" "}
                   <span className="text-[#FF6B00]">continuity.</span>
+                  */}
                 </h1>
 
                 {/* Subtitle */}
@@ -490,7 +494,7 @@ export default function Home() {
                   take control of your mental health journey.
                 </p>
 
-                {/* Feature List */}
+                {/* Feature List — hidden for now
                 <div className="space-y-2 mb-8">
                   <div className="flex items-center gap-2 text-gray-400 font-medium text-sm">
                     <span className="text-gray-300">✕</span> No guesswork.
@@ -505,27 +509,30 @@ export default function Home() {
                     <span>✓</span> Just the right support, at the right time.
                   </div>
                 </div>
+                */}
 
                 {/* Call To Actions */}
                 <div className="flex flex-row flex-nowrap items-center gap-3 sm:gap-4">
-                  <Link
-                    href="/mind-matrix"
-                    className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap px-5 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base font-bold text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 rounded-full transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
-                  >
-                    <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Start Mind Check
-                  </Link>
+                  {MIND_MATRIX_VISIBLE ? (
+                    <Link
+                      href="/mind-matrix"
+                      className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap px-5 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base font-bold text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 rounded-full transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
+                    >
+                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      Start Mind Check
+                    </Link>
+                  ) : null}
                   <Link
                     href="https://app-heyattrangi.vercel.app"
-                    className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap px-5 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base font-bold text-white bg-[#FF6B00] hover:bg-orange-600 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98]"
+                    className="group inline-flex shrink-0 items-center justify-center gap-2.5 whitespace-nowrap px-6 py-3 sm:px-8 sm:py-3.5 text-sm sm:text-base font-bold text-white bg-[#FF6B00] hover:bg-orange-600 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98]"
                   >
-                    <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
-                    Try Pragya
-                    <svg className="w-4 h-4 ml-1 shrink-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span>Hey Attrangi</span>
+                    <svg className="w-4 h-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                   </Link>
@@ -654,7 +661,7 @@ export default function Home() {
               />
             </div>
             
-            {/* Outcomes Pill */}
+            {/* Outcomes Pill — hidden for now
             <div className="flex flex-col items-center justify-center mt-2 mb-8">
               <div className="inline-flex items-center justify-center gap-3 bg-white border border-orange-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] rounded-full px-6 py-3 mb-6">
                 <span className="inline-flex items-center justify-center w-[22px] h-[22px] rounded-full border border-orange-300 text-orange-400 text-xs font-bold bg-orange-50/50">!</span>
@@ -662,13 +669,13 @@ export default function Home() {
                   None of these lead to sustainable outcomes.
                 </p>
               </div>
-              {/* Three dots */}
               <div className="flex justify-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-orange-200"></div>
                 <div className="w-1.5 h-1.5 rounded-full bg-orange-200"></div>
                 <div className="w-1.5 h-1.5 rounded-full bg-orange-200"></div>
               </div>
             </div>
+            */}
           </div>
         </div>
         </motion.div>
@@ -790,13 +797,15 @@ export default function Home() {
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 mb-2 relative z-20">
-                        <div className="bg-[#fffdfa] rounded-2xl shadow-sm border border-orange-50 p-3.5 flex flex-col justify-center text-center gap-1 hover:border-orange-100 transition-colors cursor-pointer">
-                          <div className="w-8 h-8 mx-auto bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-50 mb-1.5">
-                            <span className="text-orange-500 text-sm">📝</span>
+                        {MIND_MATRIX_VISIBLE ? (
+                          <div className="bg-[#fffdfa] rounded-2xl shadow-sm border border-orange-50 p-3.5 flex flex-col justify-center text-center gap-1 hover:border-orange-100 transition-colors cursor-pointer">
+                            <div className="w-8 h-8 mx-auto bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-50 mb-1.5">
+                              <span className="text-orange-500 text-sm">📝</span>
+                            </div>
+                            <span className="text-[11px] font-bold text-[#111827]">Take Mind Check</span>
+                            <span className="text-[8px] text-gray-400 font-medium leading-tight">Understand your current state</span>
                           </div>
-                          <span className="text-[11px] font-bold text-[#111827]">Take Mind Check</span>
-                          <span className="text-[8px] text-gray-400 font-medium leading-tight">Understand your current state</span>
-                        </div>
+                        ) : null}
                         <div className="bg-[#fffdfa] rounded-2xl shadow-sm border border-orange-50 p-3.5 flex flex-col justify-center text-center gap-1 hover:border-orange-100 transition-colors cursor-pointer">
                           <div className="w-8 h-8 mx-auto bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-50 mb-1.5">
                             <span className="text-orange-500 text-sm">💬</span>
@@ -912,22 +921,10 @@ export default function Home() {
           {insightsToShow.length > 0 && (
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="mb-16">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12">
+                <div className="mb-12">
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#1a2b3c] tracking-tight leading-tight" style={{ fontFamily: "Poppins, sans-serif" }}>
                     Know more about the causes!
                   </h2>
-                  <div className="relative w-full md:w-80 shrink-0">
-                    <input
-                      type="text"
-                      placeholder="Search resources"
-                      className="w-full bg-white text-[#1a2b3c] placeholder-gray-400 pl-4 pr-10 py-3 rounded-xl border border-gray-100 shadow-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all text-sm font-medium"
-                    />
-                    <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-orange-500">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Bento Grid Layout (Alternating Style) */}
@@ -1070,11 +1067,17 @@ export default function Home() {
         </motion.div>
 
 
+        {/* FAQ Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+        >
+          <FAQ />
+        </motion.div>
+
         <MentalHealthConcerns />
-
-
-
-
 
         {/* Testimonials Section Commented Out */}
         {false && (
@@ -1199,19 +1202,8 @@ export default function Home() {
           </section>
         )}
 
-
-        {/* FAQ Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-        >
-          <FAQ />
-        </motion.div>
-
         {/* Footer */}
-        <Footer />
+        <Footer className="pt-8" />
       </div>
     </>
   );
