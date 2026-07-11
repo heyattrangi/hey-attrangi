@@ -9,7 +9,6 @@ import Navigation from "@/components/Navigation";
 import FAQ from "@/components/FAQ";
 import HowWeCanHelp from "@/components/HowWeCanHelp";
 import ScrollingTextMarqueeComponent from "@/components/ScrollingTextMarquee";
-import MentalHealthConcerns from "@/components/MentalHealthConcerns";
 import PlatformFeatures from "@/components/PlatformFeatures";
 import { APP_SIGNIN_URL } from "@/lib/app-urls";
 import { MIND_MATRIX_VISIBLE } from "@/lib/mind-matrix/feature-flag";
@@ -1076,8 +1075,6 @@ export default function Home() {
         >
           <FAQ />
         </motion.div>
-
-        <MentalHealthConcerns />
 
         {/* Testimonials Section Commented Out */}
         {false && (
