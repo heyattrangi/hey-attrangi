@@ -550,41 +550,68 @@ export default function Home() {
                     {/* Dynamic Island Notch */}
                     <div className="w-20 h-5 bg-[#0c111d] rounded-full mx-auto mb-2 flex-shrink-0"></div>
 
-                    {/* Top Custom App Grid Icon */}
-                    <div className="grid grid-cols-2 gap-0.5 w-5 h-5 mb-3.5 select-none shrink-0">
-                      <div className="bg-red-400 rounded-sm"></div>
-                      <div className="bg-orange-400 rounded-sm"></div>
-                      <div className="bg-yellow-400 rounded-sm"></div>
-                      <div className="bg-orange-300 rounded-sm"></div>
+                    {/* App header row */}
+                    <div className="flex items-center gap-2 mb-3 shrink-0">
+                      <div className="grid grid-cols-2 gap-0.5 w-5 h-5 select-none">
+                        <div className="bg-red-400 rounded-sm"></div>
+                        <div className="bg-orange-400 rounded-sm"></div>
+                        <div className="bg-yellow-400 rounded-sm"></div>
+                        <div className="bg-orange-300 rounded-sm"></div>
+                      </div>
+                      <div>
+                        <p className="text-[9px] font-bold text-[#111827] leading-none">Hey Attrangi</p>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                          <p className="text-[7.5px] text-gray-400 leading-none">Online · Here for you</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* AI greeting bubble */}
+                    <div className="bg-[#f0ede8] rounded-xl rounded-tl-sm px-2.5 py-2 mb-3 shrink-0">
+                      <p className="text-[9px] text-[#111827] leading-relaxed">Hi! I'm Attrangi 👋 I'm your mental health companion. How are you feeling right now?</p>
                     </div>
 
                     {/* Header */}
-                    <h3 className="text-sm sm:text-base font-extrabold text-[#111827] leading-[1.2] tracking-tight mb-3.5 select-none shrink-0">
+                    <h3 className="text-[11px] font-extrabold text-[#111827] leading-tight tracking-tight mb-2 select-none shrink-0">
                       How can I help you today?
                     </h3>
 
                     {/* Interactive Option Cards */}
-                    <div className="flex-grow flex flex-col gap-2 overflow-y-auto pr-0.5 mb-3 scrollbar-none select-text">
-                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:shadow-md transition-all cursor-pointer">
-                        <h4 className="text-[11px] font-bold text-[#111827] leading-tight">Just Listen</h4>
-                        <p className="text-[9px] text-gray-500 font-medium leading-tight mt-0.5">I'll hear you out and validate your feelings.</p>
+                    <div className="flex-grow flex flex-col gap-1.5 overflow-y-auto pr-0.5 mb-2.5 scrollbar-none select-text">
+                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:border-orange-200 hover:shadow-md transition-all cursor-pointer flex items-start gap-2">
+                        <span className="text-sm shrink-0 mt-0.5">🎧</span>
+                        <div>
+                          <h4 className="text-[10px] font-bold text-[#111827] leading-tight">Just Listen</h4>
+                          <p className="text-[8.5px] text-gray-500 leading-tight mt-0.5">I'll hear you out and validate your feelings without judgment.</p>
+                        </div>
                       </div>
-                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:shadow-md transition-all cursor-pointer">
-                        <h4 className="text-[11px] font-bold text-[#111827] leading-tight">Reflect</h4>
-                        <p className="text-[9px] text-gray-500 font-medium leading-tight mt-0.5">I'll help you see patterns and clarify thoughts.</p>
+                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:border-orange-200 hover:shadow-md transition-all cursor-pointer flex items-start gap-2">
+                        <span className="text-sm shrink-0 mt-0.5">🪞</span>
+                        <div>
+                          <h4 className="text-[10px] font-bold text-[#111827] leading-tight">Reflect</h4>
+                          <p className="text-[8.5px] text-gray-500 leading-tight mt-0.5">I'll help you see patterns and clarify your thoughts.</p>
+                        </div>
                       </div>
-                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:shadow-md transition-all cursor-pointer">
-                        <h4 className="text-[11px] font-bold text-[#111827] leading-tight">Help Me Think</h4>
-                        <p className="text-[9px] text-gray-500 font-medium leading-tight mt-0.5">We'll brainstorm or untangle a problem.</p>
+                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:border-orange-200 hover:shadow-md transition-all cursor-pointer flex items-start gap-2">
+                        <span className="text-sm shrink-0 mt-0.5">💡</span>
+                        <div>
+                          <h4 className="text-[10px] font-bold text-[#111827] leading-tight">Help Me Think</h4>
+                          <p className="text-[8.5px] text-gray-500 leading-tight mt-0.5">We'll brainstorm or untangle a problem together.</p>
+                        </div>
                       </div>
-                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:shadow-md transition-all cursor-pointer">
-                        <h4 className="text-[11px] font-bold text-[#111827] leading-tight">Answer Directly</h4>
-                        <p className="text-[9px] text-gray-500 font-medium leading-tight mt-0.5">No fluff, just straight answers.</p>
+                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:border-orange-200 hover:shadow-md transition-all cursor-pointer flex items-start gap-2">
+                        <span className="text-sm shrink-0 mt-0.5">⚡</span>
+                        <div>
+                          <h4 className="text-[10px] font-bold text-[#111827] leading-tight">Answer Directly</h4>
+                          <p className="text-[8.5px] text-gray-500 leading-tight mt-0.5">No fluff, just clear and straight answers.</p>
+                        </div>
                       </div>
                     </div>
 
                     {/* Bottom CTA Button */}
-                    <button className="w-full bg-[#f6a16c] hover:bg-[#f28a4b] text-[#111827] font-bold text-[11px] py-2.5 rounded-xl transition-all duration-300 shadow-sm shrink-0 flex items-center justify-center">
+                    <button className="w-full bg-[#FF6B00] text-white font-bold text-[10px] py-2.5 rounded-xl transition-all duration-300 shadow-sm shrink-0 flex items-center justify-center gap-1.5">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                       Start Chatting
                     </button>
                   </div>
