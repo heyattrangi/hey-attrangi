@@ -205,7 +205,7 @@ const MentalHealthConcerns = () => {
     const allConcerns = categories.flatMap(c => c.concerns);
 
     return (
-        <section className="bg-white pt-20 pb-0 px-4 sm:px-6 lg:px-8">
+        <section className="bg-white py-10 px-4 sm:px-6 lg:px-8">
             <div className={`max-w-7xl mx-auto flex flex-col ${SECTION_STACK_GAP}`}>
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
@@ -266,13 +266,13 @@ const MentalHealthConcerns = () => {
                 </div>
 
                 {/* View More */}
-                <div className="flex justify-center">
+                <div className="flex justify-center my-4 sm:my-8">
                     <Link
                         href="/conditions"
-                        className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-[#1a2b3c] px-8 py-3 rounded-full font-bold text-sm transition-all shadow-sm hover:shadow border border-gray-200"
+                        className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-[#1a2b3c] px-8 py-3 rounded-full font-bold text-sm transition-all shadow-sm hover:shadow-md border border-gray-200"
                     >
                         View More
-                        <ChevronDown className="w-4 h-4 text-orange-500" />
+                        <ArrowRight className="w-4 h-4 text-orange-500" />
                     </Link>
                 </div>
 

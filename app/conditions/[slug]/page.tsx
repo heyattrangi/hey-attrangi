@@ -6,6 +6,7 @@ import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { notFound } from "next/navigation";
+import { Info, Activity } from "lucide-react";
 
 // Duplicate the concerns data here for now since we don't have a shared data file yet
 const concerns = [
@@ -93,9 +94,6 @@ export default function ConditionPage({ params }: { params: Promise<{ slug: stri
             <div className="bg-[#fff3e7] pt-32 pb-20 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6">
-                        <div className="inline-block bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-2">
-                            Condition Overview
-                        </div>
                         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
                             {concern.title} Care & Support
                         </h1>
@@ -103,12 +101,12 @@ export default function ConditionPage({ params }: { params: Promise<{ slug: stri
                             {concern.description} At Attrangi, we provide specialized care to help you navigate through these challenges with compassion and expertise.
                         </p>
                         <div className="flex flex-wrap gap-4 pt-4">
-                            <button className="bg-orange-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200">
-                                Book a Consultation
-                            </button>
-                            <button className="bg-white text-gray-800 border border-gray-200 px-8 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-colors shadow-sm">
+                            <Link href="https://app-heyattrangi.vercel.app" className="bg-orange-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200 inline-flex items-center justify-center">
+                                Hey Attrangi
+                            </Link>
+                            <a href="#details" className="bg-white text-gray-800 border border-gray-200 px-8 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center justify-center">
                                 Learn More
-                            </button>
+                            </a>
                         </div>
                     </div>
                     <div className="relative h-[400px] w-full flex items-center justify-center">
@@ -125,7 +123,7 @@ export default function ConditionPage({ params }: { params: Promise<{ slug: stri
             </div>
 
             {/* Detailed Content Section */}
-            <div className="py-20 px-4 sm:px-6 lg:px-8">
+            <div id="details" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid md:grid-cols-3 gap-8">
                         {/* Main Content */}
@@ -133,7 +131,9 @@ export default function ConditionPage({ params }: { params: Promise<{ slug: stri
                             {/* Understanding Section */}
                             <section>
                                 <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                                    <span className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl">ℹ️</span>
+                                    <span className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                        <Info className="w-5 h-5" />
+                                    </span>
                                     Understanding {concern.title}
                                 </h2>
                                 <div className="prose prose-lg text-gray-600 leading-relaxed">
@@ -150,7 +150,9 @@ export default function ConditionPage({ params }: { params: Promise<{ slug: stri
                             {/* Symptoms Section */}
                             <section>
                                 <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                                    <span className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-xl">🔍</span>
+                                    <span className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                                        <Activity className="w-5 h-5" />
+                                    </span>
                                     Common Signs & Symptoms
                                 </h2>
                                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
@@ -202,9 +204,9 @@ export default function ConditionPage({ params }: { params: Promise<{ slug: stri
                                 <p className="text-gray-600 mb-6 text-sm">
                                     Take the first step towards better mental health today. Our specialists are here to listen.
                                 </p>
-                                <button className="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors shadow-md mb-4">
-                                    Book Appointment
-                                </button>
+                                <Link href="https://app-heyattrangi.vercel.app" className="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors shadow-md mb-4 inline-flex items-center justify-center">
+                                    Hey Attrangi
+                                </Link>
                                 <div className="text-center">
                                     <p className="text-xs text-gray-500 mb-2">Need immediate help?</p>
                                     <a href="tel:1234567890" className="text-orange-600 font-bold hover:underline">

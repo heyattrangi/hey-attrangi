@@ -462,7 +462,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-        <div className="relative w-full bg-white pt-12 pb-16 md:pt-16 md:pb-24 border-b border-gray-100">
+        <div className="relative w-full bg-white py-10 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               {/* Left Column: Content */}
@@ -639,7 +639,7 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
         >
-        <div className="relative w-full bg-white pt-20 pb-20 border-b border-gray-50">
+        <div className="relative w-full bg-white py-10 border-b border-gray-50">
           <div className="max-w-6xl mx-auto px-6 lg:px-8">
             {/* Header text */}
             <div className="text-center max-w-3xl mx-auto mb-14">
@@ -687,7 +687,7 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
         >
-        <div className="relative w-full bg-[#f8f9fa] py-20 lg:py-32 overflow-hidden border-b border-gray-50">
+        <div className="relative w-full bg-[#f8f9fa] py-10 overflow-hidden border-b border-gray-50">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
               {/* Left Column: Text Content */}
@@ -875,7 +875,7 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
         >
-        <section className="bg-white py-12 lg:py-16 overflow-hidden relative">
+        <section className="bg-white py-10 overflow-hidden relative">
           {/* Far Left Decorative Gray Block */}
           {/* <div className="absolute top-1/2 -left-20 md:-left-10 -translate-y-1/2 w-[20%] sm:w-[15%] lg:w-[12%] h-[100%] bg-[#d9d9d9]/60 rounded-r-[50px] z-0 pointer-events-none hidden md:block"></div> */}
 
@@ -915,7 +915,7 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
         >
-        <section id="services" className="bg-white py-16 relative z-0">
+        <section id="services" className="bg-white py-10 relative z-0">
 
           {/* Featured Blogs Section */}
           {insightsToShow.length > 0 && (

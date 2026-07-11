@@ -460,7 +460,7 @@ export default function PlatformFeatures() {
   const MockupComponent = MockupMap[activeFeature.id];
 
   return (
-    <section className="bg-white py-16 lg:py-24 relative overflow-hidden border-b border-gray-50">
+    <section className="bg-white py-10 relative overflow-hidden border-b border-gray-50">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-50/50 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
 
