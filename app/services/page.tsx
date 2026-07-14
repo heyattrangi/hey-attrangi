@@ -77,7 +77,6 @@ export default function Services() {
 
               <h2
                 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 Your Mental Health Journey in Your {" "}
                 <span className="text-orange-600">Pocket</span>

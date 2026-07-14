@@ -7,7 +7,7 @@ export default function AppPage() {
             <div className="text-center space-y-6 max-w-2xl">
                 <div className="relative w-32 h-32 mx-auto mb-6">
                     <Image
-                        src="/images/logo-vertical.png"
+                        src="https://res.cloudinary.com/dbjv95prc/image/upload/v1784004218/Group_16_t94j4m.png"
                         alt="Hey Attrangi Logo"
                         fill
                         className="object-contain"

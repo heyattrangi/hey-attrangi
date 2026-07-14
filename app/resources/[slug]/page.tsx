@@ -177,7 +177,7 @@ export default function ResourceDetailPage() {
               
               {/* Title row */}
               <div className="flex items-start justify-between gap-4 mb-3">
-                <h1 className="text-3xl font-bold text-gray-900 leading-tight" style={{fontFamily: 'Poppins, sans-serif'}}>
+                <h1 className="text-3xl font-bold text-gray-900 leading-tight">
                   {resource.title}
                 </h1>
                 {resource.featured && (

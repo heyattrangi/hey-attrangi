@@ -161,7 +161,7 @@ export default function BlogsPage() {
 
         {/* Amaha Style Header Area */}
         <section className="px-4 sm:px-6 lg:px-8 max-w-[1240px] mx-auto mt-12 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
-          <h1 className="text-3xl md:text-[34px] font-bold text-gray-800 tracking-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <h1 className="text-3xl md:text-[34px] font-bold text-gray-800 tracking-tight">
             Your Go-To Mental Well-being Library
           </h1>
 
@@ -214,7 +214,7 @@ export default function BlogsPage() {
             {allBlogs.length > 3 && (
               <div className="mb-20">
                 <div className="mb-8">
-                  <h2 className="text-[28px] font-bold text-gray-800" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                  <h2 className="text-[28px] font-bold text-gray-800">
                     Find out what others are reading
                   </h2>
                   <p className="text-gray-500 text-sm mt-1">

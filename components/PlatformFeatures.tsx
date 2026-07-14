@@ -468,7 +468,7 @@ export default function PlatformFeatures() {
         
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#1a2b3c] tracking-tight leading-tight mb-4" style={{ fontFamily: "Georgia, serif" }}>
+           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#1a2b3c] tracking-tight leading-tight mb-4">
              One place for everything.
            </h2>
            <p className="text-lg md:text-xl text-gray-500 font-medium">

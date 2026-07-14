@@ -10,6 +10,7 @@ import FAQ from "@/components/FAQ";
 import HowWeCanHelp from "@/components/HowWeCanHelp";
 import ScrollingTextMarqueeComponent from "@/components/ScrollingTextMarquee";
 import PlatformFeatures from "@/components/PlatformFeatures";
+import ConnectWithUs from "@/components/ConnectWithUs";
 import { APP_SIGNIN_URL } from "@/lib/app-urls";
 import { MIND_MATRIX_VISIBLE } from "@/lib/mind-matrix/feature-flag";
 
@@ -948,7 +949,7 @@ export default function Home() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="mb-16">
                 <div className="mb-12">
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#1a2b3c] tracking-tight leading-tight" style={{ fontFamily: "Poppins, sans-serif" }}>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#1a2b3c] tracking-tight leading-tight">
                     Know more about the causes!
                   </h2>
                 </div>
@@ -1092,6 +1093,7 @@ export default function Home() {
         </section>
         </motion.div>
 
+        <ConnectWithUs />
 
         {/* FAQ Section */}
         <motion.div
@@ -1118,7 +1120,6 @@ export default function Home() {
                 <span className="text-orange-500 font-bold tracking-widest text-sm uppercase mb-4 block">Testimonials</span>
                 <h2
                   className="text-4xl md:text-5xl font-extrabold text-[#1a2b3c] mb-6 tracking-tight leading-tight"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
                 >
                   Trusted by Experts in <br className="hidden md:block" /> Mental Health & Tech
                 </h2>
@@ -1212,7 +1213,7 @@ export default function Home() {
 
                     <div className="flex items-center gap-4 pt-6 border-t border-gray-50">
                       <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 relative shadow-inner">
-                        <Image src="/images/founder2.png" alt="Dr. Sandesh" fill className="object-cover" />
+                        <Image src="https://res.cloudinary.com/dbjv95prc/image/upload/v1783957638/sandesh_rggxgs.png" alt="Dr. Sandesh" fill className="object-cover" />
                       </div>
                       <div>
                         <h4 className="font-bold text-[#1a2b3c] text-sm">Dr. Sandesh</h4>

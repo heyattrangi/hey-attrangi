@@ -59,9 +59,9 @@ export default function Navigation({ currentPath = "/" }: NavigationProps) {
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
               <Link href="/" className="flex items-center">
-                <div className="relative h-12 w-auto">
+                <div className="relative h-9 w-auto">
                   <img
-                    src="/images/logo-vertical.png"
+                    src="https://res.cloudinary.com/dbjv95prc/image/upload/v1784004218/Group_16_t94j4m.png"
                     alt="Attrangi Private Limited"
                     className="h-full w-auto object-contain"
                   />
@@ -102,6 +102,15 @@ export default function Navigation({ currentPath = "/" }: NavigationProps) {
                         </ul>
                       </div>
                     )}
+                  </li>
+
+                  <li>
+                    <Link
+                      href="/#connect-with-us"
+                      className={`text-sm font-medium transition-colors duration-200 ${currentPath === '/#connect-with-us' ? 'text-orange-600 font-bold' : 'text-gray-600 hover:text-orange-600'}`}
+                    >
+                      Connect With Us
+                    </Link>
                   </li>
 
                   {MIND_MATRIX_VISIBLE ? (
@@ -293,6 +302,16 @@ export default function Navigation({ currentPath = "/" }: NavigationProps) {
                     <li className="border-t border-gray-100 pt-1"><Link href="/resources" className="block px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg" onClick={() => { setMobileMenuOpen(false); setMobileDropdown(null); }}>Resources</Link></li>
                   </ul>
                 )}
+              </li>
+
+              <li>
+                <Link
+                  href="/#connect-with-us"
+                  className="block px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-semibold transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Connect With Us
+                </Link>
               </li>
 
               {BILLING_VISIBLE ? (

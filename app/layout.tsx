@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Manrope } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/components/SessionProvider";
 
-const manrope = Manrope({
+const nunito = Nunito({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-manrope",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-nunito",
   display: "swap",
 });
 
@@ -49,8 +49,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={manrope.variable} suppressHydrationWarning>
-      <body className={`antialiased ${manrope.className}`}>
+    <html lang="en" className={nunito.variable} suppressHydrationWarning>
+      <body className={`antialiased ${nunito.className}`}>
         {/* Google Analytics */}
         <Script
           strategy="afterInteractive"

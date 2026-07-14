@@ -116,7 +116,7 @@ export default function ResourcesPage() {
             </>
           )}
         </div>
-        <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3 group-hover:text-orange-600 transition-colors leading-[1.25]" style={{ fontFamily: 'Poppins, sans-serif' }}>
+        <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3 group-hover:text-orange-600 transition-colors leading-[1.25]">
           {resource.title}
         </h3>
         <p className="text-gray-500 text-base line-clamp-2 leading-relaxed">
@@ -154,7 +154,7 @@ export default function ResourcesPage() {
             </>
           )}
         </div>
-        <h3 className="text-lg md:text-xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors leading-snug line-clamp-3 pb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>
+        <h3 className="text-lg md:text-xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors leading-snug line-clamp-3 pb-1">
           {resource.title}
         </h3>
       </div>
@@ -189,7 +189,7 @@ export default function ResourcesPage() {
             </>
           )}
         </div>
-        <h3 className="text-base font-bold text-gray-800 group-hover:text-orange-600 transition-colors leading-snug line-clamp-3" style={{ fontFamily: 'Poppins, sans-serif' }}>
+        <h3 className="text-base font-bold text-gray-800 group-hover:text-orange-600 transition-colors leading-snug line-clamp-3">
           {resource.title}
         </h3>
         {resource.description && (
@@ -207,7 +207,7 @@ export default function ResourcesPage() {
 
         {/* Header */}
         <section className="px-4 sm:px-6 lg:px-8 max-w-[1240px] mx-auto mt-12 mb-10">
-          <h1 className="text-3xl md:text-[34px] font-bold text-gray-800 tracking-tight mb-8" style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <h1 className="text-3xl md:text-[34px] font-bold text-gray-800 tracking-tight mb-8">
             Your Go-To Mental Well-being Resources
           </h1>
         </section>
@@ -256,7 +256,7 @@ export default function ResourcesPage() {
             {filteredResources.length > 3 && (
               <div className="mb-20">
                 <div className="mb-8">
-                  <h2 className="text-[28px] font-bold text-gray-800" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                  <h2 className="text-[28px] font-bold text-gray-800">
                     Find more resources
                   </h2>
                   <p className="text-gray-500 text-sm mt-1">

@@ -13,13 +13,13 @@ export default function Footer({ className = "" }: { className?: string }) {
           <div className="w-full lg:w-1/3 flex flex-col justify-center text-center lg:text-left pr-0 lg:pr-8">
             <div className="flex justify-center lg:justify-start items-center gap-3 mb-6">
               <Image
-                src="/images/logo.png"
+                src="https://res.cloudinary.com/dbjv95prc/image/upload/v1784004218/Group_16_t94j4m.png"
                 alt="Hey Attrangi logo"
-                width={56}
-                height={56}
-                className="w-14 h-14 rounded-xl object-contain bg-white p-1 shadow-md"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain"
               />
-              <h2 className="text-3xl font-extrabold text-[#1a2b3c] tracking-tight" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <h2 className="text-3xl font-extrabold text-[#1a2b3c] tracking-tight">
                 Hey Attrangi!
               </h2>
             </div>
