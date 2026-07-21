@@ -621,10 +621,10 @@ export default function Home() {
                 {/* Robot/Mascot on the Right, Overlapping slightly */}
                 <div className="absolute bottom-[-5%] -right-4 sm:-right-8 w-full max-w-[190px] sm:max-w-[220px] z-20 flex items-center justify-center transform hover:scale-[1.03] transition-all duration-300">
                   <Image
-                    src="/images/header2.png"
+                    src="/reflective-transparent.png"
                     alt="Attrangi Bot mascot"
                     width={220}
-                    height={293}
+                    height={220}
                     className="w-full h-auto object-contain select-none"
                     priority
                   />
