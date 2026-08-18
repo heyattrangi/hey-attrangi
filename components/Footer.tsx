@@ -187,9 +187,12 @@ export default function Footer({ className = "" }: { className?: string }) {
             <Link href="/blogs" className="hover:text-[#ea7e3b] transition-colors">Explore</Link>
             <Link href="/blogs" className="hover:text-[#ea7e3b] transition-colors">Blog</Link>
             <Link href="/terms?section=privacy" className="hover:text-[#ea7e3b] transition-colors">Cookies</Link>
-            <Link href="/terms?section=privacy" className="hover:text-[#ea7e3b] transition-colors">Privacy</Link>
-            <Link href="/terms" className="hover:text-[#ea7e3b] transition-colors">Terms</Link>
+            <Link href="/privacy-policy" className="hover:text-[#ea7e3b] transition-colors">Privacy</Link>
+            <Link href="/terms-and-conditions" className="hover:text-[#ea7e3b] transition-colors">Terms</Link>
             <Link href="/terms?section=refund" className="hover:text-[#ea7e3b] transition-colors">Refund</Link>
+            <Link href="/ai-assistance-consent" className="hover:text-[#ea7e3b] transition-colors">AI Assistance Consent</Link>
+            <Link href="/ai-transparency-safety-responsible-ai" className="hover:text-[#ea7e3b] transition-colors">AI Transparency</Link>
+            <Link href="/data-processing-consent" className="hover:text-[#ea7e3b] transition-colors">Data Processing Consent</Link>
           </div>
           
           <p className="text-[#1a2b3c]/50 text-sm font-medium whitespace-nowrap">

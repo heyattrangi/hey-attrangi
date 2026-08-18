@@ -210,12 +210,12 @@ export default function Navigation({ currentPath = "/" }: NavigationProps) {
                                     Hey Attrangi
                                 </Link>
                                 {/* Clicking Animation / Cursor — hidden for now
-                <div className="absolute -bottom-4 -right-3 z-20 pointer-events-none animate-bounce" style={{ animationDuration: '2s' }}>
-                  <svg className="w-7 h-7 text-orange-600 drop-shadow-md transform -rotate-12" fill="currentColor" stroke="white" strokeWidth="1" viewBox="0 0 24 24">
-                    <path d="M6 3l14 9-6 2 4 7-3 2-4-7-5 4z" />
-                  </svg>
-                </div>
-                */}
+                                <div className="absolute -bottom-4 -right-3 z-20 pointer-events-none animate-bounce" style={{ animationDuration: '2s' }}>
+                                    <svg className="w-7 h-7 text-orange-600 drop-shadow-md transform -rotate-12" fill="currentColor" stroke="white" strokeWidth="1" viewBox="0 0 24 24">
+                                        <path d="M6 3l14 9-6 2 4 7-3 2-4-7-5 4z" />
+                                    </svg>
+                                </div>
+                                */}
                             </div>
                         </div>
 

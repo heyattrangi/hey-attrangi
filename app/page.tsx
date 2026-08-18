@@ -539,95 +539,30 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Right Column: Live Tailwind iPhone on the left, Mascot Bot on the right overlapping */}
+              {/* Right Column: Hero Mobile Image with overlapping Bot Welcome Widget */}
               <div className="lg:col-span-5 relative flex justify-center lg:justify-end items-center mt-12 lg:mt-0 select-none">
-
-                {/* Mobile Mockup (iPhone Container) */}
-                <div className="relative w-full max-w-[280px] sm:max-w-[310px] aspect-[9/18.5] bg-[#0c111d] rounded-[44px] p-2.5 shadow-2xl border-4 border-[#1f2937] ring-1 ring-gray-900/10 flex flex-col justify-between transform hover:-translate-y-1 transition-all duration-300 z-10 mr-12 sm:mr-16">
-
-                  {/* Screen Inside iPhone */}
-                  <div className="relative w-full h-full bg-[#faf9f6] rounded-[36px] p-3.5 flex flex-col overflow-hidden">
-
-                    {/* Dynamic Island Notch */}
-                    <div className="w-20 h-5 bg-[#0c111d] rounded-full mx-auto mb-2 flex-shrink-0"></div>
-
-                    {/* App header row */}
-                    <div className="flex items-center gap-2 mb-3 shrink-0">
-                      <div className="grid grid-cols-2 gap-0.5 w-5 h-5 select-none">
-                        <div className="bg-red-400 rounded-sm"></div>
-                        <div className="bg-orange-400 rounded-sm"></div>
-                        <div className="bg-yellow-400 rounded-sm"></div>
-                        <div className="bg-orange-300 rounded-sm"></div>
-                      </div>
-                      <div>
-                        <p className="text-[9px] font-bold text-[#111827] leading-none">Hey Attrangi</p>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                          <p className="text-[7.5px] text-gray-400 leading-none">Online · Here for you</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* AI greeting bubble */}
-                    <div className="bg-[#f0ede8] rounded-xl rounded-tl-sm px-2.5 py-2 mb-3 shrink-0">
-                      <p className="text-[9px] text-[#111827] leading-relaxed">Hi! I'm Attrangi 👋 I'm your mental health companion. How are you feeling right now?</p>
-                    </div>
-
-                    {/* Header */}
-                    <h3 className="text-[11px] font-extrabold text-[#111827] leading-tight tracking-tight mb-2 select-none shrink-0">
-                      How can I help you today?
-                    </h3>
-
-                    {/* Interactive Option Cards */}
-                    <div className="flex-grow flex flex-col gap-1.5 overflow-y-auto pr-0.5 mb-2.5 scrollbar-none select-text">
-                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:border-orange-200 hover:shadow-md transition-all cursor-pointer flex items-start gap-2">
-                        <span className="text-sm shrink-0 mt-0.5">🎧</span>
-                        <div>
-                          <h4 className="text-[10px] font-bold text-[#111827] leading-tight">Just Listen</h4>
-                          <p className="text-[8.5px] text-gray-500 leading-tight mt-0.5">I'll hear you out and validate your feelings without judgment.</p>
-                        </div>
-                      </div>
-                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:border-orange-200 hover:shadow-md transition-all cursor-pointer flex items-start gap-2">
-                        <span className="text-sm shrink-0 mt-0.5">🪞</span>
-                        <div>
-                          <h4 className="text-[10px] font-bold text-[#111827] leading-tight">Reflect</h4>
-                          <p className="text-[8.5px] text-gray-500 leading-tight mt-0.5">I'll help you see patterns and clarify your thoughts.</p>
-                        </div>
-                      </div>
-                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:border-orange-200 hover:shadow-md transition-all cursor-pointer flex items-start gap-2">
-                        <span className="text-sm shrink-0 mt-0.5">💡</span>
-                        <div>
-                          <h4 className="text-[10px] font-bold text-[#111827] leading-tight">Help Me Think</h4>
-                          <p className="text-[8.5px] text-gray-500 leading-tight mt-0.5">We'll brainstorm or untangle a problem together.</p>
-                        </div>
-                      </div>
-                      <div className="bg-white border border-gray-100 rounded-xl p-2.5 shadow-sm hover:border-orange-200 hover:shadow-md transition-all cursor-pointer flex items-start gap-2">
-                        <span className="text-sm shrink-0 mt-0.5">⚡</span>
-                        <div>
-                          <h4 className="text-[10px] font-bold text-[#111827] leading-tight">Answer Directly</h4>
-                          <p className="text-[8.5px] text-gray-500 leading-tight mt-0.5">No fluff, just clear and straight answers.</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom CTA Button */}
-                    <button className="w-full bg-[#FF6B00] text-white font-bold text-[10px] py-2.5 rounded-xl transition-all duration-300 shadow-sm shrink-0 flex items-center justify-center gap-1.5">
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                      Start Chatting
-                    </button>
-                  </div>
-                </div>
-
-                {/* Robot/Mascot on the Right, Overlapping slightly */}
-                <div className="absolute bottom-[-5%] -right-4 sm:-right-8 w-full max-w-[190px] sm:max-w-[220px] z-20 flex items-center justify-center transform hover:scale-[1.03] transition-all duration-300">
+                <div className="relative w-full max-w-[300px] sm:max-w-[340px] aspect-[769/1572] z-10 transition-transform duration-300 hover:scale-[1.02]">
+                  {/* Mobile App Mockup Image */}
                   <Image
-                    src="/reflective-transparent.png"
-                    alt="Attrangi Bot mascot"
-                    width={220}
-                    height={220}
-                    className="w-full h-auto object-contain select-none"
+                    src="https://res.cloudinary.com/dxoiluua8/image/upload/v1787046155/Container_-_iPhone_xitztw.png"
+                    alt="Hey Attrangi Mobile App Screenshot"
+                    fill
+                    className="object-contain"
                     priority
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
+
+                  {/* Overlapping Bot Welcome Card/Widget at bottom right */}
+                  <div className="absolute -bottom-6 -right-6 sm:-right-10 w-[150px] sm:w-[180px] aspect-[1371/1648] z-20 transition-transform duration-300 hover:scale-[1.05] drop-shadow-2xl">
+                    <Image
+                      src="https://res.cloudinary.com/dxoiluua8/image/upload/v1786973636/bot_welcome_m2mnkm.png"
+                      alt="Attrangi Bot Welcome Widget"
+                      fill
+                      className="object-contain"
+                      priority
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
