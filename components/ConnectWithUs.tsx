@@ -37,14 +37,14 @@ export default function ConnectWithUs() {
           Talk With Our Team
         </h2>
         <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-          Book a free consultation with our AntiAngrivty support team. Choose a date and time that works best for you.
+          Connect with our team for a conversation. Choose a date and time that works best for you.
         </p>
         
         <button
           onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-xl font-bold text-base transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200"
+          className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-xl font-bold text-base transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200 whitespace-nowrap"
         >
-          Book Appointment
+          Meet Our Team
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
@@ -68,7 +68,7 @@ export default function ConnectWithUs() {
               className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-4xl max-h-[90vh] bg-white rounded-2xl shadow-2xl z-[101] overflow-hidden flex flex-col"
             >
               <div className="flex justify-between items-center p-4 border-b border-gray-100 bg-white sticky top-0 z-10 shrink-0">
-                <h3 className="text-lg font-bold text-gray-900">Schedule Consultation</h3>
+                <h3 className="text-lg font-bold text-gray-900">Schedule a Conversation</h3>
                 <button
                   onClick={() => setIsModalOpen(false)}
                   className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors focus:outline-none"

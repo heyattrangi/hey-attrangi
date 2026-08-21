@@ -539,7 +539,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Right Column: Hero Mobile Image with overlapping Bot Welcome Widget */}
+              {/* Right Column: Hero Mobile Image */}
               <div className="lg:col-span-5 relative flex justify-center lg:justify-end items-center mt-12 lg:mt-0 select-none">
                 <div className="relative w-full max-w-[300px] sm:max-w-[340px] aspect-[769/1572] z-10 transition-transform duration-300 hover:scale-[1.02]">
                   {/* Mobile App Mockup Image */}
@@ -551,18 +551,6 @@ export default function Home() {
                     priority
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
-
-                  {/* Overlapping Bot Welcome Card/Widget at bottom right */}
-                  <div className="absolute -bottom-6 -right-6 sm:-right-10 w-[150px] sm:w-[180px] aspect-[1371/1648] z-20 transition-transform duration-300 hover:scale-[1.05] drop-shadow-2xl">
-                    <Image
-                      src="https://res.cloudinary.com/dxoiluua8/image/upload/v1786973636/bot_welcome_m2mnkm.png"
-                      alt="Attrangi Bot Welcome Widget"
-                      fill
-                      className="object-contain"
-                      priority
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </div>
                 </div>
               </div>
             </div>
