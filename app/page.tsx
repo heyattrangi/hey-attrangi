@@ -3,31 +3,26 @@
 import { useEffect, useMemo, useState, useRef, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { 
+  Send, Mic, Sparkles, Smile, Activity, Calendar, Heart, 
+  MessageSquare, ChevronRight, Menu, X, ArrowRight, Home as HomeIcon, 
+  BookOpen, AlertCircle, Info 
+} from "lucide-react";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 import Navigation from "@/components/Navigation";
-import FAQ from "@/components/FAQ";
+import ReviewsAndFAQ from "@/components/ReviewsAndFAQ";
 import HowWeCanHelp from "@/components/HowWeCanHelp";
 import ScrollingTextMarqueeComponent from "@/components/ScrollingTextMarquee";
-import PlatformFeatures from "@/components/PlatformFeatures";
-import ConnectWithUs from "@/components/ConnectWithUs";
+import ChatGPTVsAtrangi from "@/components/ChatGPTVsAtrangi";
+import AtrangiFeatures from "@/components/AtrangiFeatures";
+import PricingPlan from "@/components/PricingPlan";
 import { APP_SIGNIN_URL } from "@/lib/app-urls";
 import { MIND_MATRIX_VISIBLE } from "@/lib/mind-matrix/feature-flag";
 
-interface FeaturedBlog {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  image: string | null;
-  author: string | null;
-  likes: number;
-  views: number;
-  createdAt: string;
-  isPlaceholder?: boolean;
-  category?: string;
-  type?: string;
-}
+
 
 const formatDate = (dateString: string) => {
   if (!dateString) return "";
@@ -43,82 +38,36 @@ const formatDate = (dateString: string) => {
   }
 };
 
-const fallbackInsights: FeaturedBlog[] = [
+
+
+const TRUSTED_INSTITUTIONS = [
   {
-    id: "placeholder-1",
-    title: "The Role of Therapy in Managing Personality Disorders",
-    slug: "",
-    excerpt: "Personality disorders are characterized by persistent unhealthy patterns of thinking, feeling, and behaving. Understand the role of...",
-    image: "/images/src12.jpg",
-    author: "Hey Attrangi Team",
-    likes: 0,
-    views: 1200,
-    createdAt: "2025-01-01T00:00:00.000Z",
-    isPlaceholder: true,
-    category: "Personality disorders",
-    type: "Article",
-  },
-  {
-    id: "placeholder-2",
-    title: "Types of Panic Attacks and How To Cope With Them",
-    slug: "",
-    excerpt: "Learn about the types of panic attacks, common symptoms, and practical techniques to manage them effectively.",
-    image: "/images/src6-3.jpeg",
-    author: "Clinical Psychology Desk",
-    likes: 0,
-    views: 980,
-    createdAt: "2025-01-02T00:00:00.000Z",
-    isPlaceholder: true,
-    category: "",
-    type: "Article",
-  },
-  {
-    id: "placeholder-3",
-    title: "What To Expect From a Psychiatric Consultation",
-    slug: "",
-    excerpt: "De-mystifying the process of meeting with a psychiatrist, from diagnostic discussions to treatment planning.",
-    image: "/images/src6-5.jpg",
-    author: "Hey Attrangi Experts",
-    likes: 0,
-    views: 860,
-    createdAt: "2025-01-03T00:00:00.000Z",
-    isPlaceholder: true,
-    category: "General well-being",
-    type: "Article",
-  },
-  {
-    id: "placeholder-4",
-    title: "Are OCD And Anxiety Related?",
-    slug: "",
-    excerpt: "Understanding the overlap and key differences between OCD and generalized anxiety disorders.",
-    image: "",
-    author: "Clinical Desk",
-    likes: 0,
-    views: 1100,
-    createdAt: "2025-01-04T00:00:00.000Z",
-    isPlaceholder: true,
-    category: "Anxiety disorders",
-    type: "Video",
-  },
-  {
-    id: "placeholder-5",
-    title: "How Do You Relieve Symptoms Of Anxiety?",
-    slug: "",
-    excerpt: "Evidence-backed self-care techniques, grounding exercises, and professional treatments for anxiety.",
-    image: "",
-    author: "Clinical Desk",
-    likes: 0,
-    views: 1400,
-    createdAt: "2025-01-05T00:00:00.000Z",
-    isPlaceholder: true,
-    category: "Anxiety disorders",
-    type: "Video",
+    name: "IIIT Dharwad",
+    logo: "/images/iiit-dharwad.png",
   }
 ];
 
 export default function Home() {
-  const [featuredBlogs, setFeaturedBlogs] = useState<FeaturedBlog[]>([]);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const router = useRouter();
+  const [guestChatMsg, setGuestChatMsg] = useState("");
+  const [showMicTooltip, setShowMicTooltip] = useState(false);
+
+  const handleGuestChatSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const message = guestChatMsg.trim();
+    if (message) {
+      try {
+        sessionStorage.setItem("pending_guest_chat_msg", message);
+        localStorage.setItem("pending_guest_chat_msg", message);
+        localStorage.setItem("guest_initial_prompt", message);
+      } catch (_) {}
+      window.location.href = `https://app-heyattrangi.vercel.app/patient/ai-bot?message=${encodeURIComponent(message)}`;
+    } else {
+      window.location.href = "https://app-heyattrangi.vercel.app/patient/ai-bot";
+    }
+  };
+
+
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [currentQuote, setCurrentQuote] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -271,12 +220,10 @@ export default function Home() {
     "We've just launched our new mental health platform",
     "Supporting individuals with their mental health companion",
     "Evidence-based therapy for better mental health outcomes",
-    "Your mental health journey starts with understanding"
+    "A little space to understand yourself"
   ];
 
-  useEffect(() => {
-    fetchFeaturedBlogs();
-  }, []);
+
 
   useEffect(() => {
     let ticking = false;
@@ -314,66 +261,7 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    if (featuredBlogs.length > 0) {
-      const interval = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % featuredBlogs.length);
-      }, 5000); // Change slide every 5 seconds
-      return () => clearInterval(interval);
-    }
-  }, [featuredBlogs]);
 
-  const fetchFeaturedBlogs = async () => {
-    try {
-      // First try to get featured blogs
-      const featuredResponse = await fetch("/api/blogs/featured");
-      if (featuredResponse.ok) {
-        const featuredData = await featuredResponse.json();
-        console.log("Fetched featured blogs:", featuredData);
-        if (featuredData.length > 0) {
-          setFeaturedBlogs(featuredData);
-          return;
-        }
-      }
-
-      // If no featured blogs, try public blogs
-      const publicResponse = await fetch("/api/blogs/public");
-      if (publicResponse.ok) {
-        const publicData = await publicResponse.json();
-        console.log("Fetched public blogs:", publicData);
-        if (publicData.length > 0) {
-          setFeaturedBlogs(publicData.slice(0, 4));
-          return;
-        }
-      }
-
-      // If still no blogs, try the main blogs route
-      const allBlogsResponse = await fetch("/api/blogs");
-      if (allBlogsResponse.ok) {
-        const allBlogs = await allBlogsResponse.json();
-        console.log("Fetched all blogs:", allBlogs);
-        if (allBlogs.length > 0) {
-          setFeaturedBlogs(allBlogs.slice(0, 4));
-          return;
-        }
-      }
-
-      console.log("No blogs found in any route");
-      setFeaturedBlogs([]);
-
-    } catch (error) {
-      console.error("Error fetching blogs:", error);
-      setFeaturedBlogs([]);
-    }
-  };
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % featuredBlogs.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + featuredBlogs.length) % featuredBlogs.length);
-  };
 
   const nextQuote = () => {
     if (isAnimatingRef.current) return;
@@ -399,634 +287,158 @@ export default function Home() {
     }, 600);
   };
 
-  const insightsToShow = useMemo(() => {
-    if (featuredBlogs.length >= 5) {
-      return featuredBlogs.slice(0, 5);
-    }
 
-    if (featuredBlogs.length === 0) {
-      return fallbackInsights;
-    }
-
-    const needed = 5 - featuredBlogs.length;
-    const additional = fallbackInsights.slice(0, needed);
-    return [...featuredBlogs, ...additional];
-  }, [featuredBlogs]);
 
   return (
     <>
       <div className="min-h-screen bg-white">
-        {/* Moving Quote Bar */}
-        <div className="bg-gray-800 text-white py-2 px-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            {/* Previous Button */}
-            <button
-              onClick={prevQuoteFunc}
-              className="flex items-center justify-center w-6 h-6 hover:bg-gray-700 rounded transition-all duration-200"
-            >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
+        {/* Redesigned Hero Section */}
+        <div className="relative w-full bg-white px-2 sm:px-4 md:px-5 pt-2 sm:pt-4 md:pt-5 pb-8 overflow-hidden">
+          <div className="w-full">
+            {/* Soft blue gradient hero card container */}
+            <div className="relative w-full rounded-[24px] sm:rounded-[32px] md:rounded-[40px] border border-[#FCF9F7] bg-gradient-to-br from-[#96D1ED] via-[#BFE3F4] to-[#E6F7FF] shadow-[0_20px_50px_rgba(150,209,237,0.18)] pt-6 pb-0 px-4 sm:px-8 lg:px-16 overflow-hidden">
+              
+              {/* Background soft glowing animation blobs */}
+              <div className="absolute top-[-20%] left-[-10%] w-[50%] aspect-square bg-[#BFE3F4]/40 rounded-full blur-[120px] pointer-events-none animate-blob"></div>
+              <div className="absolute bottom-[-10%] right-[-10%] w-[40%] aspect-square bg-[#96D1ED]/30 rounded-full blur-[100px] pointer-events-none animate-blob" style={{ animationDelay: "3s" }}></div>
 
-            {/* Scrolling Content */}
-            <div className="flex-1 overflow-hidden mx-4 h-6 relative">
-              <div
-                className={`flex items-center justify-center h-full transition-all duration-500 ease-in-out ${isAnimating ? "opacity-0 scale-95" : "opacity-100 scale-100"
-                  }`}
-              >
-                <p className="text-sm font-medium tracking-wide whitespace-nowrap">
-                  {quotes[currentQuote]}
-                </p>
+              {/* Universal Floating Pill Navigation */}
+              <div className="mb-16 sm:mb-20 md:mb-24">
+                <Navbar currentPath="/" />
               </div>
-            </div>
 
-            {/* Next Button */}
-            <button
-              onClick={nextQuote}
-              className="flex items-center justify-center w-6 h-6 hover:bg-gray-700 rounded transition-all duration-200"
-            >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+              {/* Hero content area */}
+              <div className="relative z-20 flex flex-col items-center text-center max-w-4xl mx-auto">
+                {/* Main Heading */}
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-extrabold text-slate-900 leading-[1.12] tracking-tight mb-8 sm:mb-10 select-text"
+                >
+                  A little space to <br className="hidden sm:inline" />
+                  understand yourself.
+                </motion.h1>
+
+                {/* Primary CTA - Guest Chat Input */}
+                <motion.div
+                  id="ai-input-section"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  className="w-full max-w-xl mx-auto mb-16 sm:mb-20 px-2 sm:px-0 relative z-30"
+                >
+                  <form onSubmit={handleGuestChatSubmit} className="flex items-center gap-3 w-full">
+                    <div 
+                      onClick={() => handleGuestChatSubmit()}
+                      className="relative flex-1 flex items-center bg-white rounded-full border border-white/80 shadow-md hover:shadow-lg focus-within:shadow-lg focus-within:border-orange-200 transition-all duration-300 px-2 py-1.5 sm:py-2 cursor-pointer"
+                    >
+                      <input
+                        id="hero-ai-input"
+                        type="text"
+                        placeholder="Tell me what's on your mind..."
+                        value={guestChatMsg}
+                        onChange={(e) => setGuestChatMsg(e.target.value)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleGuestChatSubmit();
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            handleGuestChatSubmit();
+                          }
+                        }}
+                        className="w-full pl-4 pr-12 py-2 text-slate-800 placeholder-slate-400 bg-transparent border-none outline-none text-sm sm:text-base cursor-pointer"
+                      />
+                      <button
+                        id="hero-ai-send-btn"
+                        type="submit"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleGuestChatSubmit();
+                        }}
+                        className="absolute right-2 sm:right-3 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-900 hover:bg-slate-800 text-white transition-all duration-200 active:scale-95 shadow-sm cursor-pointer"
+                        aria-label="Send message"
+                      >
+                        <Send className="w-4 h-4 ml-0.5" />
+                      </button>
+                    </div>
+
+                    {/* Microphone Button */}
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          window.location.href = "https://app-heyattrangi.vercel.app/patient/ai-bot";
+                        }}
+                        className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md hover:shadow-lg active:scale-95 transition-all duration-200 hover:scale-105 cursor-pointer"
+                        aria-label="Voice Input"
+                      >
+                        <Mic className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </form>
+                </motion.div>
+              </div>
+
+              {/* Product wellness dashboard mockup preview */}
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full flex justify-center"
+              >
+                <div className="relative w-full max-w-6xl rounded-t-2xl sm:rounded-t-3xl border border-white/70 shadow-[0_-15px_30px_rgba(0,0,0,0.03),0_20px_40px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-500 hover:translate-y-[-6px] bg-white/95">
+                  <Image
+                    src="https://res.cloudinary.com/dxoiluua8/image/upload/v1788297342/Landing_screen_bb9waq.png"
+                    alt="Hey Attrangi Platform Interface"
+                    width={1920}
+                    height={1080}
+                    className="w-full h-auto block"
+                    priority
+                  />
+                </div>
+              </motion.div>
+              
+            </div>
           </div>
         </div>
 
-        {/* Navigation Component */}
-        <Navigation currentPath="/" />
-
-        {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-        <div className="relative w-full bg-white py-10 border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              {/* Left Column: Content */}
-              <div className="lg:col-span-7 flex flex-col justify-center min-w-0">
-                {/* Pill Badge — hidden for now
-                <div className="inline-flex items-center gap-2 bg-[#E9ECEF] text-gray-600 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6 w-fit">
-                  <span className="w-2 h-2 rounded-full bg-[#FF6B00]"></span>
-                  Continuous Mental Health Infrastructure
-                </div>
-                */}
-
-                {/* Main Heading */}
-                <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-[42px] xl:text-[56px] 2xl:text-6xl font-extrabold text-[#111827] leading-[1.12] tracking-tight mb-6">
-                  Mental health support
-                  <br />
-                  shouldn't start in{" "}
-                  <span className="text-[#FF6B00]">crisis.</span>
-                  {/* It should start with continuity. — hidden for now
-                  <br />
-                  It should start with{" "}
-                  <span className="text-[#FF6B00]">continuity.</span>
-                  */}
-                </h1>
-
-                {/* Subtitle */}
-                <p className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-2xl font-medium mb-6">
-                  Attrangi is your continuous mental health infrastructure — designed to help you
-                  understand concerns, make safe decisions, find the right care, and
-                  take control of your mental health journey.
-                </p>
-
-                {/* Feature List — hidden for now
-                <div className="space-y-2 mb-8">
-                  <div className="flex items-center gap-2 text-gray-400 font-medium text-sm">
-                    <span className="text-gray-300">✕</span> No guesswork.
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-400 font-medium text-sm">
-                    <span className="text-gray-300">✕</span> No endless searching.
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-400 font-medium text-sm">
-                    <span className="text-gray-300">✕</span> No unnecessary steps.
-                  </div>
-                  <div className="flex items-center gap-2 text-green-600 font-bold text-sm pt-1">
-                    <span>✓</span> Just the right support, at the right time.
-                  </div>
-                </div>
-                */}
-
-                {/* Call To Actions */}
-                <div className="flex flex-row flex-nowrap items-center gap-3 sm:gap-4">
-                  {MIND_MATRIX_VISIBLE ? (
-                    <Link
-                      href="/mind-matrix"
-                      className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap px-5 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base font-bold text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 rounded-full transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
-                    >
-                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                      Start Mind Check
-                    </Link>
-                  ) : null}
-                  <Link
-                    href="https://app-heyattrangi.vercel.app"
-                    className="group inline-flex shrink-0 items-center justify-center gap-2.5 whitespace-nowrap px-6 py-3 sm:px-8 sm:py-3.5 text-sm sm:text-base font-bold text-white bg-[#FF6B00] hover:bg-orange-600 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98]"
-                  >
-                    <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                    <span>Hey Attrangi</span>
-                    <svg className="w-4 h-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Right Column: Hero Mobile Image */}
-              <div className="lg:col-span-5 relative flex justify-center lg:justify-end items-center mt-12 lg:mt-0 select-none">
-                <div className="relative w-full max-w-[300px] sm:max-w-[340px] aspect-[769/1572] z-10 transition-transform duration-300 hover:scale-[1.02]">
-                  {/* Mobile App Mockup Image */}
+        {/* Loved by Students Section */}
+        <div className="w-full flex flex-col items-center justify-center text-center py-10 md:py-14 select-text">
+          <p className="text-xs sm:text-sm font-semibold tracking-wider text-slate-500 uppercase mb-4 select-text">
+            Loved by Students from
+          </p>
+          <div className="flex items-center justify-center gap-8 mt-2 flex-wrap">
+            {TRUSTED_INSTITUTIONS.map((inst, index) => (
+              <div key={index} className="flex flex-col items-center justify-center">
+                <div className="relative w-[75px] h-[75px] sm:w-[85px] sm:h-[85px] md:w-[95px] md:h-[95px] transition-all duration-300 hover:scale-105 select-none">
                   <Image
-                    src="https://res.cloudinary.com/dxoiluua8/image/upload/v1787046155/Container_-_iPhone_xitztw.png"
-                    alt="Hey Attrangi Mobile App Screenshot"
+                    src={inst.logo}
+                    alt={`${inst.name} Logo`}
                     fill
                     className="object-contain"
+                    sizes="(max-w-768px) 75px, (max-w-1024px) 85px, 95px"
                     priority
-                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        </motion.div>
-
-        {/* Bottom full-width features bar with dark borders matching exactly */}
-        <div className="w-full bg-white border-t border-b border-gray-200 py-6 select-none relative">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-wrap justify-center lg:justify-between items-center gap-6 md:gap-8">
-            <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-gray-500 uppercase tracking-wider">
-              <svg className="w-5 h-5 text-[#FF6B00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              SAFETY-FIRST AI
-            </div>
-            <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-gray-500 uppercase tracking-wider">
-              <svg className="w-5 h-5 text-[#FF6B00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.255.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5-1.253" />
-              </svg>
-              GUIDED BY CLINICAL EXPERTISE
-            </div>
-            <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-gray-500 uppercase tracking-wider">
-              <svg className="w-5 h-5 text-[#FF6B00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-              PRIVACY SAFE
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Ground Reality Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-        >
-        <div className="relative w-full bg-white py-10 border-b border-gray-50">
-          <div className="max-w-6xl mx-auto px-6 lg:px-8">
-            {/* Header text */}
-            <div className="text-center max-w-3xl mx-auto mb-14">
-              <span className="text-xs sm:text-sm font-bold text-gray-400 uppercase tracking-widest mb-4 inline-block">
-                GROUND REALITY
-              </span>
-              <h2 className="text-3xl sm:text-4xl md:text-[42px] font-serif font-bold text-[#111827] leading-[1.2] tracking-tight">
-                When students face mental health challenges, institutions are forced into one of <span className="text-[#ff6000]">three gaps.</span>
-              </h2>
-            </div>
-            {/* Feature Cards Grid (Replaced with Image) */}
-            <div className="relative w-full mb-8 max-w-5xl mx-auto px-4 sm:px-6">
-              <Image 
-                src="/images/paths.png" 
-                alt="Three Gaps" 
-                width={1200} 
-                height={600} 
-                className="w-full h-auto object-contain mx-auto" 
-              />
-            </div>
-            
-            {/* Outcomes Pill — hidden for now
-            <div className="flex flex-col items-center justify-center mt-2 mb-8">
-              <div className="inline-flex items-center justify-center gap-3 bg-white border border-orange-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] rounded-full px-6 py-3 mb-6">
-                <span className="inline-flex items-center justify-center w-[22px] h-[22px] rounded-full border border-orange-300 text-orange-400 text-xs font-bold bg-orange-50/50">!</span>
-                <p className="text-sm sm:text-[15px] font-bold text-[#334155]">
-                  None of these lead to sustainable outcomes.
-                </p>
-              </div>
-              <div className="flex justify-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-orange-200"></div>
-                <div className="w-1.5 h-1.5 rounded-full bg-orange-200"></div>
-                <div className="w-1.5 h-1.5 rounded-full bg-orange-200"></div>
-              </div>
-            </div>
-            */}
-          </div>
-        </div>
-        </motion.div>
+        {/* ChatGPT vs Hey Atrangi Section */}
+        <ChatGPTVsAtrangi />
 
-        {/* Statistics / Impact Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-        >
-        <div className="relative w-full bg-[#f8f9fa] py-10 overflow-hidden border-b border-gray-50">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              {/* Left Column: Text Content */}
-              <div className="flex flex-col justify-center max-w-2xl">
-                <h2 className="text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold text-[#111827] leading-[1.1] tracking-tight mb-6">
-                  75% of mental health conditions begin before age 25.
-                </h2>
-                <p className="text-2xl sm:text-3xl md:text-[2.2rem] font-bold text-[#64748b] leading-[1.25] tracking-tight mb-8">
-                  Yet millions of students struggle in silence, waiting until stress becomes burnout, anxiety becomes overwhelming, and asking for help feels too late.
-                </p>
-                <p className="text-2xl sm:text-3xl md:text-[2.2rem] font-extrabold text-[#FF6B00] leading-[1.25] tracking-tight mb-10">
-                  It doesn't have to be you.
-                </p>
+        {/* Features Section (with Integrated Heading) */}
+        <AtrangiFeatures />
 
-                <div>
-                  <Link
-                    href={APP_SIGNIN_URL}
-                    className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap px-8 py-3.5 text-base sm:text-lg font-bold text-white bg-[#f68b4b] hover:bg-[#e07b40] rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98]"
-                  >
-                    Get Started
-                    <span className="flex items-center justify-center w-5 h-5 rounded-full border border-white/40">
-                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                      </svg>
-                    </span>
-                  </Link>
-                </div>
-              </div>
+        {/* Pricing Plan Section */}
+        <PricingPlan />
 
-              {/* Right Column: Mobile Mockup */}
-              <div className="relative flex justify-center lg:justify-end items-center mt-12 lg:mt-0 select-none">
-                {/* Decorative Background Waves */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[45%] w-[160%] aspect-square z-0 pointer-events-none">
-                  {/* Background lighter peach wave */}
-                  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="absolute w-full h-full text-[#ffedd5] opacity-80 transform scale-[1.2] translate-x-[15%] translate-y-[10%]">
-                    <path fill="currentColor" d="M42.7,-73.4C56.6,-66.1,70.1,-55.9,78.5,-41.8C86.9,-27.7,90.2,-9.7,87.6,7.6C85,24.9,76.5,41.4,64.1,53.4C51.7,65.4,35.4,72.9,18.4,78.1C1.4,83.3,-16.3,86.2,-31.6,81C-46.9,75.8,-59.8,62.5,-69.3,47.7C-78.8,32.9,-84.9,16.5,-84.5,0.3C-84.1,-15.9,-77.2,-31.8,-66.5,-44.6C-55.8,-57.4,-41.3,-67.1,-27.1,-74.1C-12.9,-81.1,1,-85.4,14.6,-84.2C28.2,-83,41.4,-76.3,42.7,-73.4Z" transform="translate(100 100)" />
-                  </svg>
-                  {/* Foreground darker peach wave */}
-                  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="absolute w-full h-full text-[#fed7aa] opacity-60 transform scale-[1.0] translate-x-[25%] translate-y-[25%]">
-                    <path fill="currentColor" d="M47.5,-73.1C59.9,-61.8,67.4,-44.9,73.1,-27.5C78.8,-10.1,82.7,7.8,77.7,23.3C72.7,38.8,58.8,51.9,43.2,60.8C27.6,69.7,10.3,74.4,-5.9,71.7C-22.1,69,-37.2,58.9,-49.5,46.1C-61.8,33.3,-71.3,17.8,-74.7,1.1C-78.1,-15.6,-75.4,-33.5,-65.4,-47.4C-55.4,-61.3,-38.1,-71.2,-21.3,-74.9C-4.5,-78.6,11.8,-76.1,27.1,-71.4C42.4,-66.7,56.7,-59.8,47.5,-73.1Z" transform="translate(100 100)" />
-                  </svg>
-                </div>
-
-                {/* Mobile Mockup (iPhone Container) 3D */}
-                <div 
-                  className="relative w-full max-w-[280px] sm:max-w-[320px] aspect-[9/18.5] z-10 mr-4 sm:mr-8 lg:mr-16 rounded-[44px] shadow-[-20px_20px_40px_rgba(0,0,0,0.25)]"
-                  style={{
-                    transform: 'perspective(1200px) rotateX(12deg) rotateY(-18deg) rotateZ(6deg)',
-                    transformStyle: 'preserve-3d'
-                  }}
-                >
-                  {/* Solid Metal Extrusion (Box Thickness) */}
-                  <div className="absolute inset-0 rounded-[44px] bg-[#374151]" style={{ transform: 'translateZ(-16px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#4b5563]" style={{ transform: 'translateZ(-15px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#4b5563]" style={{ transform: 'translateZ(-14px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#4b5563]" style={{ transform: 'translateZ(-13px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#6b7280]" style={{ transform: 'translateZ(-12px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#6b7280]" style={{ transform: 'translateZ(-11px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#6b7280]" style={{ transform: 'translateZ(-10px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#9ca3af]" style={{ transform: 'translateZ(-9px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#9ca3af]" style={{ transform: 'translateZ(-8px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#d1d5db]" style={{ transform: 'translateZ(-7px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#d1d5db]" style={{ transform: 'translateZ(-6px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#e5e7eb]" style={{ transform: 'translateZ(-5px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#e5e7eb]" style={{ transform: 'translateZ(-4px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#f3f4f6]" style={{ transform: 'translateZ(-3px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#f3f4f6]" style={{ transform: 'translateZ(-2px)' }}></div>
-                  <div className="absolute inset-0 rounded-[44px] bg-[#f9fafb]" style={{ transform: 'translateZ(-1px)' }}></div>
-
-                  {/* Front Face (Black Glass Bezel) */}
-                  <div className="absolute inset-0 bg-[#111111] rounded-[44px] p-[6px]" style={{ transform: 'translateZ(0px)', transformStyle: 'preserve-3d' }}>
-                    {/* Screen Inside iPhone */}
-                    <div className="relative w-full h-full bg-[#faf9f6] rounded-[38px] p-4 flex flex-col overflow-hidden">
-                      {/* Dynamic Island Notch */}
-                      <div className="w-24 h-7 bg-[#000000] rounded-full mx-auto mb-4 flex-shrink-0 z-20 relative mt-0 shadow-[inset_0_-1px_3px_rgba(255,255,255,0.2)]"></div>
-
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-6 relative z-20">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200">
-                          <Image src="/images/student.png" alt="User" width={32} height={32} className="object-cover" />
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-center justify-center bg-white px-2.5 py-1 rounded-2xl shadow-sm border border-gray-50">
-                        <span className="text-[10px] font-bold text-gray-800 flex items-center gap-1">
-                          ⛅ 72°
-                        </span>
-                        <span className="text-[8px] font-medium text-gray-400 leading-none">Partly Cloudy</span>
-                      </div>
-                    </div>
-
-                    <h3 className="text-xl font-bold text-[#111827] mb-4 flex items-center gap-1.5 relative z-20">
-                      Hey Attrangi <span className="text-[#FF6B00] text-lg">🌿</span>
-                    </h3>
-
-                    {/* App Content Blocks */}
-                    <div className="flex-1 flex flex-col gap-3 overflow-y-auto scrollbar-none pb-4">
-
-                      {/* Search Bar Mockup */}
-                      <div className="bg-white rounded-full shadow-sm border border-gray-100 p-2.5 flex items-center justify-between mb-2 relative z-20">
-                        <span className="text-xs text-gray-400 font-medium ml-2">How are you feeling?</span>
-                        <div className="w-6 h-6 rounded-full bg-[#FF6B00] flex items-center justify-center shadow-sm shadow-orange-500/30">
-                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                          </svg>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2 mb-2 relative z-20">
-                        {MIND_MATRIX_VISIBLE ? (
-                          <div className="bg-[#fffdfa] rounded-2xl shadow-sm border border-orange-50 p-3.5 flex flex-col justify-center text-center gap-1 hover:border-orange-100 transition-colors cursor-pointer">
-                            <div className="w-8 h-8 mx-auto bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-50 mb-1.5">
-                              <span className="text-orange-500 text-sm">📝</span>
-                            </div>
-                            <span className="text-[11px] font-bold text-[#111827]">Take Mind Check</span>
-                            <span className="text-[8px] text-gray-400 font-medium leading-tight">Understand your current state</span>
-                          </div>
-                        ) : null}
-                        <div className="bg-[#fffdfa] rounded-2xl shadow-sm border border-orange-50 p-3.5 flex flex-col justify-center text-center gap-1 hover:border-orange-100 transition-colors cursor-pointer">
-                          <div className="w-8 h-8 mx-auto bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-50 mb-1.5">
-                            <span className="text-orange-500 text-sm">💬</span>
-                          </div>
-                          <span className="text-[11px] font-bold text-[#111827]">Chat with Pragya</span>
-                          <span className="text-[8px] text-gray-400 font-medium leading-tight">Talk it out with your AI companion</span>
-                        </div>
-                      </div>
-
-                      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-3.5 mb-2 flex items-center gap-3 relative z-20">
-                        <div className="w-10 h-10 rounded-xl bg-[#fdfaf5] border border-orange-50 flex flex-shrink-0 items-center justify-center">
-                          <span className="text-orange-400 text-lg">📊</span>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="text-[11px] font-bold text-[#111827] leading-tight">View Daily Insights</h4>
-                          <p className="text-[9px] text-gray-500 mt-0.5 font-medium">Track your mental wellness over time</p>
-                        </div>
-                        <div className="ml-auto text-orange-400 pr-1">
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                        </div>
-                      </div>
-
-                      <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-sm border border-gray-100 p-3.5 mb-2 flex items-center gap-3 group cursor-pointer hover:border-blue-200 transition-colors relative z-20">
-                        <div className="w-10 h-10 rounded-xl bg-blue-50 group-hover:bg-blue-100 transition-colors flex flex-shrink-0 items-center justify-center">
-                          <span className="text-blue-500 text-lg">🛋️</span>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="text-[11px] font-bold text-[#111827] leading-tight">Therapy Session</h4>
-                          <p className="text-[9px] text-blue-500 font-medium mt-0.5">Starts in 10 mins</p>
-                        </div>
-                        <div className="bg-orange-100 hover:bg-orange-200 text-orange-600 text-[10px] font-bold px-3.5 py-1.5 rounded-full shadow-sm transition-colors">
-                          Join
-                        </div>
-                      </div>
-
-                    </div>
-
-                      {/* Bottom Landscape Artwork */}
-                      <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none z-10 opacity-90 rounded-b-[36px] overflow-hidden">
-                        <svg viewBox="0 0 320 120" preserveAspectRatio="none" className="absolute bottom-0 w-full h-[120%] text-[#ffe3cd]">
-                          <path fill="currentColor" opacity="0.6" d="M0,80 C60,40 100,100 160,80 C220,60 280,100 320,60 L320,120 L0,120 Z"></path>
-                          <path fill="currentColor" opacity="0.9" d="M0,100 C80,60 140,110 200,80 C260,50 300,90 320,80 L320,120 L0,120 Z"></path>
-                          <path fill="#e6f2eb" opacity="0.7" d="M-20,120 C40,70 120,90 180,60 C240,30 300,80 340,70 L340,120 L-20,120 Z"></path>
-                          <path fill="#c7e6c9" opacity="0.6" d="M-40,120 C30,90 100,110 150,80 C200,50 250,90 350,80 L350,120 L-40,120 Z"></path>
-                        </svg>
-                        <div className="absolute bottom-2 left-6 text-green-600/40 text-2xl transform -rotate-12">🌿</div>
-                        <div className="absolute bottom-4 right-8 text-orange-500/60 text-2xl transform rotate-12">🍂</div>
-                        <div className="absolute bottom-6 left-1/3 text-yellow-500/30 text-xl transform rotate-45">🌾</div>
-                      </div>
-
-                    </div>
-                  </div>
-                  </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-        </motion.div>
-
-
-
-        {/* Personalized Care Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-        >
-        <section className="bg-white py-10 overflow-hidden relative">
-          {/* Far Left Decorative Gray Block */}
-          {/* <div className="absolute top-1/2 -left-20 md:-left-10 -translate-y-1/2 w-[20%] sm:w-[15%] lg:w-[12%] h-[100%] bg-[#d9d9d9]/60 rounded-r-[50px] z-0 pointer-events-none hidden md:block"></div> */}
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="flex flex-col items-center gap-8 lg:gap-16">
-              {/* Heading Section */}
-              <div className="relative z-10 text-center max-w-4xl mx-auto">
-                <h2 className="text-3xl md:text-4xl lg:text-[2.5rem] font-bold text-[#ff6000] leading-tight">
-                  Continuous care that fits student life &<br className="hidden md:block" />supports the systems around them.
-                </h2>
-              </div>
-
-              {/* Image Section */}
-              <div className="relative w-full max-w-6xl h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] z-20">
-                <Image
-                  src="/images/thinker2.png"
-                  alt="Student reflecting on mental healthcare"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-        </motion.div>
-
-
-
-
-        {/* Platform Features Section */}
-        <PlatformFeatures />
-
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-        >
-        <section id="services" className="bg-white py-10 relative z-0">
-
-          {/* Featured Blogs Section */}
-          {insightsToShow.length > 0 && (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="mb-16">
-                <div className="mb-12">
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#1a2b3c] tracking-tight leading-tight">
-                    Know more about the causes!
-                  </h2>
-                </div>
-
-                {/* Bento Grid Layout (Alternating Style) */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">
-                  {/* Top Left - Tall */}
-                  {insightsToShow.length > 0 && (
-                    <div className="lg:col-span-5 xl:col-span-4 flex">
-                      <Link href={`/blogs/${insightsToShow[0].slug || insightsToShow[0].id}`} className="group relative bg-[#1a2b3c] rounded-[32px] overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 w-full flex flex-col h-[350px] md:h-[420px] hover:shadow-md">
-                        <div className="absolute inset-0">
-                          {insightsToShow[0].image ? (
-                            <Image src={insightsToShow[0].image} alt={insightsToShow[0].title} fill className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90" />
-                          ) : (
-                            <div className="absolute inset-0 bg-gray-800 flex items-center justify-center"><span className="text-4xl opacity-30">📝</span></div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/60 to-transparent"></div>
-                        </div>
-                        <div className="relative z-10 p-6 md:p-8 flex flex-col justify-end flex-grow mt-auto">
-                          <div className="flex items-center gap-2 mb-3 flex-wrap">
-                            <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider">{insightsToShow[0].type || "Article"}</span>
-                            {insightsToShow[0].category && (
-                              <>
-                                <span className="text-white/40">•</span>
-                                <span className="px-2.5 py-1 text-[10px] font-bold rounded-md uppercase bg-white/20 text-white backdrop-blur-md border border-white/10">{insightsToShow[0].category}</span>
-                              </>
-                            )}
-                          </div>
-                          <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-orange-300 transition-colors leading-snug mb-2">{insightsToShow[0].title}</h3>
-                          <p className="text-white/70 text-sm line-clamp-2 leading-relaxed">{insightsToShow[0].excerpt}</p>
-                        </div>
-                      </Link>
-                    </div>
-                  )}
-
-                  {/* Top Right - Wide */}
-                  {insightsToShow.length > 1 && (
-                    <div className="lg:col-span-7 xl:col-span-8 flex">
-                      <Link href={`/blogs/${insightsToShow[1].slug || insightsToShow[1].id}`} className="group relative bg-[#1a2b3c] rounded-[32px] overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 w-full flex flex-col h-[350px] md:h-[420px] hover:shadow-md">
-                        <div className="absolute inset-0">
-                          {insightsToShow[1].image ? (
-                            <Image src={insightsToShow[1].image} alt={insightsToShow[1].title} fill className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90" />
-                          ) : (
-                            <div className="absolute inset-0 bg-gray-800 flex items-center justify-center"><span className="text-4xl opacity-30">📝</span></div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/60 to-transparent"></div>
-                        </div>
-                        <div className="relative z-10 p-6 md:p-8 flex flex-col justify-end flex-grow mt-auto">
-                          <div className="flex items-center gap-2 mb-3 flex-wrap">
-                            <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider">{insightsToShow[1].type || "Article"}</span>
-                            {insightsToShow[1].category && (
-                              <>
-                                <span className="text-white/40">•</span>
-                                <span className="px-2.5 py-1 text-[10px] font-bold rounded-md uppercase bg-white/20 text-white backdrop-blur-md border border-white/10">{insightsToShow[1].category}</span>
-                              </>
-                            )}
-                          </div>
-                          <h3 className="text-xl md:text-2xl lg:text-[28px] font-bold text-white group-hover:text-orange-300 transition-colors leading-snug mb-3 max-w-2xl">{insightsToShow[1].title}</h3>
-                          <p className="text-white/70 text-sm line-clamp-2 leading-relaxed max-w-3xl">{insightsToShow[1].excerpt}</p>
-                        </div>
-                      </Link>
-                    </div>
-                  )}
-
-                  {/* Bottom Left - Wide */}
-                  {insightsToShow.length > 2 && (
-                    <div className="lg:col-span-7 xl:col-span-8 flex">
-                      <Link href={`/blogs/${insightsToShow[2].slug || insightsToShow[2].id}`} className="group relative bg-[#1a2b3c] rounded-[32px] overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 w-full flex flex-col h-[350px] md:h-[420px] hover:shadow-md">
-                        <div className="absolute inset-0">
-                          {insightsToShow[2].image ? (
-                            <Image src={insightsToShow[2].image} alt={insightsToShow[2].title} fill className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90" />
-                          ) : (
-                            <div className="absolute inset-0 bg-gray-800 flex items-center justify-center"><span className="text-4xl opacity-30">📝</span></div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/60 to-transparent"></div>
-                        </div>
-                        <div className="relative z-10 p-6 md:p-8 flex flex-col justify-end flex-grow mt-auto">
-                          <div className="flex items-center gap-2 mb-3 flex-wrap">
-                            <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider">{insightsToShow[2].type || "Article"}</span>
-                            {insightsToShow[2].category && (
-                              <>
-                                <span className="text-white/40">•</span>
-                                <span className="px-2.5 py-1 text-[10px] font-bold rounded-md uppercase bg-white/20 text-white backdrop-blur-md border border-white/10">{insightsToShow[2].category}</span>
-                              </>
-                            )}
-                          </div>
-                          <h3 className="text-xl md:text-2xl lg:text-[28px] font-bold text-white group-hover:text-orange-300 transition-colors leading-snug mb-3 max-w-2xl">{insightsToShow[2].title}</h3>
-                          <p className="text-white/70 text-sm line-clamp-2 leading-relaxed max-w-3xl">{insightsToShow[2].excerpt}</p>
-                        </div>
-                      </Link>
-                    </div>
-                  )}
-
-                  {/* Bottom Right - Tall */}
-                  {insightsToShow.length > 3 && (
-                    <div className="lg:col-span-5 xl:col-span-4 flex">
-                      <Link href={`/blogs/${insightsToShow[3].slug || insightsToShow[3].id}`} className="group relative bg-[#1a2b3c] rounded-[32px] overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 w-full flex flex-col h-[350px] md:h-[420px] hover:shadow-md">
-                        <div className="absolute inset-0">
-                          {insightsToShow[3].image ? (
-                            <Image src={insightsToShow[3].image} alt={insightsToShow[3].title} fill className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90" />
-                          ) : (
-                            <div className="absolute inset-0 bg-gray-800 flex items-center justify-center"><span className="text-4xl opacity-30">📝</span></div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/60 to-transparent"></div>
-                        </div>
-                        <div className="relative z-10 p-6 md:p-8 flex flex-col justify-end flex-grow mt-auto">
-                          <div className="flex items-center gap-2 mb-3 flex-wrap">
-                            <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider">{insightsToShow[3].type || "Article"}</span>
-                            {insightsToShow[3].category && (
-                              <>
-                                <span className="text-white/40">•</span>
-                                <span className="px-2.5 py-1 text-[10px] font-bold rounded-md uppercase bg-white/20 text-white backdrop-blur-md border border-white/10">{insightsToShow[3].category}</span>
-                              </>
-                            )}
-                          </div>
-                          <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-orange-300 transition-colors leading-snug mb-2">{insightsToShow[3].title}</h3>
-                          <p className="text-white/70 text-sm line-clamp-2 leading-relaxed">{insightsToShow[3].excerpt}</p>
-                        </div>
-                      </Link>
-                    </div>
-                  )}
-                </div>
-
-                {/* View All Blogs Button */}
-                <div className="text-center">
-                  <Link
-                    href="/blogs"
-                    className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-lg font-bold text-sm transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-                  >
-                    View All Insights
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          )}
-
-
-        </section>
-        </motion.div>
-
-        <ConnectWithUs />
-
-        {/* FAQ Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-        >
-          <FAQ />
-        </motion.div>
+        {/* Reviews and FAQ Section */}
+        <ReviewsAndFAQ />
 
         {/* Testimonials Section Commented Out */}
         {false && (

@@ -38,7 +38,7 @@ export default function AITransparencyPage() {
       <Navigation currentPath="/ai-transparency-safety-responsible-ai" />
 
       {/* Main Content */}
-      <main className="flex-grow pt-32 pb-16">
+      <main className="flex-grow pt-8 sm:pt-12 pb-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <article className="bg-white rounded-[32px] shadow-sm shadow-orange-500/5 border border-gray-100 p-8 md:p-12 lg:p-16">
             
@@ -874,9 +874,9 @@ export default function AITransparencyPage() {
                   If you have any questions, concerns, or complaints about this Statement or our AI practices, please contact us:
                 </p>
                 <div className="bg-gray-50 p-6 rounded-2xl space-y-2">
-                  <p><strong>Email:</strong> <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a></p>
+                  <p><strong>Email:</strong> <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a></p>
                   <p><strong>Website:</strong> <a href="https://www.heyattrangi.com/" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:underline">https://www.heyattrangi.com/</a></p>
-                  <p><strong>Address:</strong> Aatrangi Private Limited, Jai Jinendra Banglow, Hubli-Dharwad Road, KHB Colony, Narayanpura, Dharwad, Karnataka - 580009, India</p>
+                  <p><strong>Address:</strong> Aatrangi Private Limited, 1344, Jai Jitendra Bunglow, Vanasiri Nagar, Sattur, Dharwad, Karnataka, India – 580009</p>
                 </div>
                 <p>
                   If you are not satisfied with our response, you have the right to file a complaint with the Data Protection Board of India in accordance with the Digital Personal Data Protection Act, 2023.

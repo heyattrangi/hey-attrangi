@@ -14,7 +14,7 @@ export default function DataProcessingConsentPage() {
       <Navigation currentPath="/data-processing-consent" />
 
       {/* Main Content */}
-      <main className="flex-grow pt-32 pb-16">
+      <main className="flex-grow pt-8 sm:pt-12 pb-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <article className="bg-white rounded-[32px] shadow-sm shadow-orange-500/5 border border-gray-100 p-8 md:p-12 lg:p-16">
             
@@ -384,7 +384,7 @@ export default function DataProcessingConsentPage() {
                   Withdrawal of Consent
                 </h2>
                 <p>
-                  You may withdraw this Consent at any time by providing written notice to us through the Platform or by email to <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a>.
+                  You may withdraw this Consent at any time by providing written notice to us through the Platform or by email to <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a>.
                 </p>
                 <p>
                   Withdrawal of consent shall be effective upon receipt of the notice by us, subject to any processing that may have already been completed prior to such withdrawal.
@@ -529,7 +529,7 @@ export default function DataProcessingConsentPage() {
                   If you have any questions about this Data Processing Consent or our data practices, please contact us:
                 </p>
                 <div className="bg-gray-50 p-6 rounded-2xl space-y-2 text-sm">
-                  <p><strong>Email:</strong> <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a></p>
+                  <p><strong>Email:</strong> <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a></p>
                 </div>
                 <p className="text-sm font-semibold">
                   END OF DOCUMENT

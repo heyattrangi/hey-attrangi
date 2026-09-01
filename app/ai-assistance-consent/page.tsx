@@ -13,7 +13,7 @@ export default function AIAssistanceConsentPage() {
       <Navigation currentPath="/ai-assistance-consent" />
 
       {/* Main Content */}
-      <main className="flex-grow pt-32 pb-16">
+      <main className="flex-grow pt-8 sm:pt-12 pb-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <article className="bg-white rounded-[32px] shadow-sm shadow-orange-500/5 border border-gray-100 p-8 md:p-12 lg:p-16">
             
@@ -747,7 +747,7 @@ export default function AIAssistanceConsentPage() {
                   If you have any questions, concerns, or complaints about this AI Assistance Consent or our use of AI technologies, please contact us:
                 </p>
                 <div className="bg-gray-50 p-6 rounded-2xl space-y-2">
-                  <p><strong>Email:</strong> <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a></p>
+                  <p><strong>Email:</strong> <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a></p>
                   <p><strong>Website:</strong> <a href="https://www.heyattrangi.com/" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:underline">https://www.heyattrangi.com/</a></p>
                 </div>
                 <p className="text-sm font-semibold mt-4">

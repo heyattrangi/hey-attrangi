@@ -140,6 +140,17 @@ export default function TryPragyaPage() {
         }
     }, [hasStarted, selectedMode]);
 
+    // Handle auto-submitting pending guest chat message from home hero
+    useEffect(() => {
+        if (visitorId && hasStarted) {
+            const pendingMsg = sessionStorage.getItem("pending_guest_chat_msg");
+            if (pendingMsg) {
+                sessionStorage.removeItem("pending_guest_chat_msg");
+                sendMessage(undefined, pendingMsg);
+            }
+        }
+    }, [visitorId, hasStarted]);
+
     const handleStartChat = () => {
         if (selectedMode) {
             setHasStarted(true);

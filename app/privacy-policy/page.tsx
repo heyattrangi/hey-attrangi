@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
       <Navigation currentPath="/privacy-policy" />
 
       {/* Main Content */}
-      <main className="flex-grow pt-32 pb-16">
+      <main className="flex-grow pt-8 sm:pt-12 pb-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <article className="bg-white rounded-[32px] shadow-sm shadow-orange-500/5 border border-gray-100 p-8 md:p-12 lg:p-16">
             
@@ -557,7 +557,7 @@ export default function PrivacyPolicyPage() {
                   <h3 className="font-bold text-gray-800">How to Exercise Your Rights</h3>
                   <p>You may exercise your rights by:</p>
                   <ul className="list-disc pl-5 space-y-1">
-                    <li>Contacting us at <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a></li>
+                    <li>Contacting us at <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a></li>
                     <li>Using the account management features available on the Platform</li>
                     <li>Following the instructions provided in relevant communications</li>
                   </ul>
@@ -586,7 +586,7 @@ export default function PrivacyPolicyPage() {
                   Account Deletion
                 </h2>
                 <p>
-                  You may request deletion of your account at any time through the Platform&apos;s account settings or by contacting us at <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a>.
+                  You may request deletion of your account at any time through the Platform&apos;s account settings or by contacting us at <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a>.
                 </p>
 
                 <div className="bg-gray-50 p-6 rounded-2xl space-y-3">
@@ -789,7 +789,7 @@ export default function PrivacyPolicyPage() {
                   If you have any questions, concerns, or complaints about this Policy or our privacy practices, please contact us:
                 </p>
                 <div className="bg-gray-50 p-6 rounded-2xl space-y-2">
-                  <p><strong>Email:</strong> <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a></p>
+                  <p><strong>Email:</strong> <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a></p>
                   <p><strong>Website:</strong> <a href="https://www.heyattrangi.com/" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:underline">https://www.heyattrangi.com/</a></p>
                 </div>
                 <p>

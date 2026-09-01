@@ -248,7 +248,7 @@ function LegalPageContent() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div>
                                     <h3 className="font-bold text-gray-900 mb-2">7. Refund Procedure</h3>
-                                    <p>Refund requests must be submitted within 7 days of the transaction to: <a href="mailto:contact@heyattrangi.com" className="text-orange-600 font-medium hover:underline">contact@heyattrangi.com</a></p>
+                                    <p>Refund requests must be submitted within 7 days of the transaction to: <a href="mailto:support@heyattrangi.com" className="text-orange-600 font-medium hover:underline">support@heyattrangi.com</a></p>
                                     <p className="mt-2 text-sm">Requests must include identifying details and transaction reference information.</p>
                                 </div>
                                 <div>
@@ -374,7 +374,7 @@ function LegalPageContent() {
                                 <h2 className="text-xl font-bold text-[#1a2b3c] mb-4">13 - 16. Applicable Law, Jurisdiction, & Contact</h2>
                                 <p>This Agreement is governed by the laws of India. You may terminate participation by written notice. aatrangi may suspend access for material breaches or license revocation.</p>
                                 <p className="mt-4 font-bold">AATRANGI Private Limited</p>
-                                <p>+91 9552324069 | Email: <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:text-orange-700">contact@heyattrangi.com</a></p>
+                                <p>+91 9552324069 | Email: <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:text-orange-700">support@heyattrangi.com</a></p>
                             </div>
                         </div>
                     </div>
@@ -425,7 +425,7 @@ function LegalPageContent() {
                         <div className="mt-12 border-t pt-8">
                             <h2 className="text-2xl font-bold text-[#1a2b3c] mb-4">Your Rights</h2>
                             <p className="mb-4">
-                                You have the right to access, correct, or delete your personal information. If you wish to exercise these rights, please contact us at <a href="mailto:contact@heyattrangi.com" className="text-orange-600 font-medium hover:underline">contact@heyattrangi.com</a>.
+                                You have the right to access, correct, or delete your personal information. If you wish to exercise these rights, please contact us at <a href="mailto:support@heyattrangi.com" className="text-orange-600 font-medium hover:underline">support@heyattrangi.com</a>.
                             </p>
                         </div>
                     </div>
@@ -436,7 +436,7 @@ function LegalPageContent() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 pt-32 pb-16">
+        <div className="min-h-screen bg-gray-50 pt-8 sm:pt-12 pb-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
                     {/* Sidebar Navigation */}

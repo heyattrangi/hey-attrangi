@@ -14,7 +14,7 @@ export default function TermsAndConditionsPage() {
       <Navigation currentPath="/terms-and-conditions" />
 
       {/* Main Content */}
-      <main className="flex-grow pt-32 pb-16">
+      <main className="flex-grow pt-8 sm:pt-12 pb-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <article className="bg-white rounded-[32px] shadow-sm shadow-orange-500/5 border border-gray-100 p-8 md:p-12 lg:p-16">
             
@@ -763,7 +763,7 @@ export default function TermsAndConditionsPage() {
                 <div className="bg-gray-50 p-6 rounded-2xl space-y-2">
                   <h3 className="font-bold text-gray-800">Security Incident Reporting</h3>
                   <p>If you become aware of any security incident or vulnerability affecting the Platform, you must report it to us immediately.</p>
-                  <p>Please report security incidents to: <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a></p>
+                  <p>Please report security incidents to: <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a></p>
                 </div>
               </section>
 
@@ -824,7 +824,7 @@ export default function TermsAndConditionsPage() {
 
                 <div className="bg-gray-50 p-6 rounded-2xl space-y-2">
                   <h3 className="font-bold text-gray-800">Reporting Violations</h3>
-                  <p>If you become aware of any violation of these Terms, please report it to us at <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a>.</p>
+                  <p>If you become aware of any violation of these Terms, please report it to us at <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a>.</p>
                   <p>We will investigate reported violations and take appropriate action, including but not limited to:</p>
                   <ul className="list-disc pl-5 space-y-1">
                     <li>Warning the violator</li>
@@ -861,7 +861,7 @@ export default function TermsAndConditionsPage() {
                   <p>You may terminate your account at any time by:</p>
                   <ul className="list-disc pl-5 space-y-1">
                     <li>Following the account deletion procedures on the Platform</li>
-                    <li>Contacting us at <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a></li>
+                    <li>Contacting us at <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a></li>
                     <li>Ceasing to use the Platform</li>
                   </ul>
                   <p>Upon termination, your access to the Platform and its Services will cease.</p>
@@ -1156,8 +1156,8 @@ export default function TermsAndConditionsPage() {
                   <h3 className="text-xl font-bold text-[#1a2b3c]">Notices</h3>
                   <div className="bg-gray-50 p-6 rounded-2xl space-y-2">
                     <p><strong>Notices to Us:</strong></p>
-                    <p>Address: Aatrangi Private Limited, Jai Jinendra Banglow, Hubli-Dharwad Road, KHB Colony, Narayanpura, Dharwad, Karnataka - 580009, India</p>
-                    <p>Email: <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a></p>
+                    <p>Address: Aatrangi Private Limited, 1344, Jai Jitendra Bunglow, Vanasiri Nagar, Sattur, Dharwad, Karnataka, India – 580009</p>
+                    <p>Email: <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a></p>
                   </div>
                   
                   <div className="bg-gray-50 p-6 rounded-2xl space-y-2 mt-4">
@@ -1204,9 +1204,9 @@ export default function TermsAndConditionsPage() {
                   If you have any questions, concerns, or complaints about these Terms or the Platform, please contact us:
                 </p>
                 <div className="bg-gray-50 p-6 rounded-2xl space-y-2">
-                  <p><strong>Email:</strong> <a href="mailto:contact@heyattrangi.com" className="text-orange-600 hover:underline">contact@heyattrangi.com</a></p>
+                  <p><strong>Email:</strong> <a href="mailto:support@heyattrangi.com" className="text-orange-600 hover:underline">support@heyattrangi.com</a></p>
                   <p><strong>Website:</strong> <a href="https://www.heyattrangi.com/" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:underline">www.heyattrangi.com</a></p>
-                  <p><strong>Address:</strong> Aatrangi Private Limited, Jai Jinendra Banglow, Hubli-Dharwad Road, KHB Colony, Narayanpura, Dharwad, Karnataka - 580009, India</p>
+                  <p><strong>Address:</strong> Aatrangi Private Limited, 1344, Jai Jitendra Bunglow, Vanasiri Nagar, Sattur, Dharwad, Karnataka, India – 580009</p>
                 </div>
                 <p className="text-sm font-semibold mt-4">
                   END OF DOCUMENT
