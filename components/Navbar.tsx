@@ -20,15 +20,29 @@ export default function Navbar({ currentPath = "/" }: NavbarProps) {
         {/* Left: Desktop Logo & Mobile Menu Toggle */}
         <div className="flex items-center">
           {/* Desktop Logo (hidden on mobile) */}
-          <Link href="/" className="hidden sm:flex items-center ml-1 sm:ml-2 group shrink-0">
+          <Link href="/" className="hidden sm:flex items-center gap-2 ml-1 sm:ml-2 group shrink-0">
             <Image
               src="https://res.cloudinary.com/dbjv95prc/image/upload/v1784004218/Group_16_t94j4m.png"
               alt="Hey Attrangi Logo"
-              width={36}
-              height={36}
-              className="h-7 sm:h-9 w-auto object-contain group-hover:scale-105 transition-transform"
+              width={34}
+              height={34}
+              className="w-8.5 h-8.5 object-contain group-hover:scale-105 transition-transform"
               priority
             />
+            <span
+              style={{
+                fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
+                fontStyle: "normal",
+                fontWeight: 800,
+                fontSize: "16.8276px",
+                lineHeight: "26px",
+                textAlign: "center",
+                letterSpacing: "-0.34496px",
+                color: "#1E1E1E",
+              }}
+            >
+              Hey Attrangi
+            </span>
           </Link>
 
           {/* Mobile 3-Lines Menu Button (visible on mobile only, in place of logo) */}
@@ -96,7 +110,7 @@ export default function Navbar({ currentPath = "/" }: NavbarProps) {
 
           {/* Orange CTA Button */}
           <Link
-            href="https://app-heyattrangi.vercel.app/patient/ai-bot"
+            href="https://app-heyattrangi.vercel.app/auth"
             className="flex flex-row justify-center items-center px-3 py-2 w-[102px] h-[36px] bg-[#F97316] hover:bg-orange-600 active:scale-[0.98] text-white rounded-[9999px] font-bold text-xs sm:text-sm flex-none shrink-0 transition-all duration-200"
           >
             Get Started
@@ -140,6 +154,15 @@ export default function Navbar({ currentPath = "/" }: NavbarProps) {
           >
             For Institutions
           </Link>
+          <div className="pt-2 border-t border-slate-100">
+            <Link
+              href="https://app-heyattrangi.vercel.app/auth"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-center w-full bg-[#F97316] hover:bg-orange-600 text-white py-2.5 rounded-full font-bold text-sm shadow-md transition-colors"
+            >
+              Get Started
+            </Link>
+          </div>
         </div>
       )}
     </header>

@@ -139,3 +139,19 @@ model RawTrialData {
   reactionTime Int
   timestamp    DateTime @default(now())
 }
+
+model ContactSubmission {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName     String
+  lastName      String
+  email         String
+  phoneNumber   String?
+  organization  String
+  role          String?
+  message       String?
+  hearAboutUs   String?
+  termsAccepted Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+

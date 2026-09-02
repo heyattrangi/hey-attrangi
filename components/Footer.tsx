@@ -30,13 +30,13 @@ export default function Footer({ className = "" }: { className?: string }) {
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-3.5 items-center justify-center -mt-2 sm:-mt-3">
             <Link 
-              href="/try-pragya"
+              href="https://app-heyattrangi.vercel.app/patient/ai-bot"
               className="px-7 sm:px-8 py-2.5 sm:py-3 bg-[#18181b] hover:bg-black text-white font-bold text-sm rounded-full transition-all duration-200 shadow-md flex items-center gap-2 hover:-translate-y-0.5 cursor-pointer"
             >
               <span>🎙️</span> Talk Now
             </Link>
             <Link 
-              href="/try-pragya"
+              href="https://app-heyattrangi.vercel.app/patient/ai-bot"
               className="px-7 sm:px-8 py-2.5 sm:py-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 font-bold text-sm rounded-full transition-all duration-200 shadow-md hover:-translate-y-0.5 cursor-pointer"
             >
               Try for free
@@ -51,10 +51,8 @@ export default function Footer({ className = "" }: { className?: string }) {
           
           {/* 1. LEGAL LINKS (Centered above Hey Atrangi brand section) */}
           <div className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-5 gap-y-2 max-w-2xl text-slate-800/80 text-xs font-medium mb-6 sm:mb-7 select-text">
-            <Link href="/terms?section=privacy" className="hover:text-orange-600 transition-colors select-text">Cookies</Link>
             <Link href="/privacy-policy" className="hover:text-orange-600 transition-colors font-bold select-text">Privacy</Link>
             <Link href="/terms-and-conditions" className="hover:text-orange-600 transition-colors font-bold select-text">Terms</Link>
-            <Link href="/terms?section=refund" className="hover:text-orange-600 transition-colors select-text">Refund</Link>
             <Link href="/ai-assistance-consent" className="hover:text-orange-600 transition-colors select-text">AI Assistance Consent</Link>
             <Link href="/ai-transparency-safety-responsible-ai" className="hover:text-orange-600 transition-colors select-text">AI Transparency</Link>
             <Link href="/data-processing-consent" className="hover:text-orange-600 transition-colors select-text">Data Processing Consent</Link>

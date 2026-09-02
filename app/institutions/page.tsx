@@ -84,11 +84,21 @@ export default function InstitutionsPage() {
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!contactForm.firstName || !contactForm.lastName || !contactForm.email || !contactForm.organization) {
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!contactForm.firstName.trim() || !contactForm.lastName.trim() || !contactForm.email.trim() || !contactForm.organization.trim()) {
       setFormStatus("error");
-      setFormMessage("Please fill out all required fields.");
+      setFormMessage("Please fill out all required fields marked with *.");
       return;
     }
+
+    if (!emailRegex.test(contactForm.email.trim())) {
+      setFormStatus("error");
+      setFormMessage("Please enter a valid email address.");
+      return;
+    }
+
     if (!contactForm.acceptTerms) {
       setFormStatus("error");
       setFormMessage("Please accept the Terms to continue.");
@@ -99,23 +109,45 @@ export default function InstitutionsPage() {
     setFormMessage("");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 900));
-      setFormStatus("success");
-      setFormMessage("Thank you! Our friendly team has received your message and will get back to you shortly.");
-      setContactForm({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        organization: "",
-        role: "",
-        message: "",
-        hearAbout: "",
-        acceptTerms: false
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: contactForm.firstName.trim(),
+          lastName: contactForm.lastName.trim(),
+          email: contactForm.email.trim(),
+          phoneNumber: contactForm.phoneNumber.trim(),
+          organization: contactForm.organization.trim(),
+          role: contactForm.role.trim(),
+          message: contactForm.message.trim(),
+          hearAboutUs: contactForm.hearAbout,
+          termsAccepted: contactForm.acceptTerms,
+        }),
       });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setFormStatus("success");
+        setFormMessage(data.message || "Thank you! Our friendly team has received your message and will get back to you shortly.");
+        setContactForm({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phoneNumber: "",
+          organization: "",
+          role: "",
+          message: "",
+          hearAbout: "",
+          acceptTerms: false
+        });
+      } else {
+        setFormStatus("error");
+        setFormMessage(data.message || "Failed to submit your message. Please try again.");
+      }
     } catch {
       setFormStatus("error");
-      setFormMessage("Something went wrong. Please try again or email us directly at support@heyattrangi.com.");
+      setFormMessage("Network error. Please check your connection or email us directly at support@heyattrangi.com.");
     }
   };
 
@@ -595,11 +627,6 @@ export default function InstitutionsPage() {
                     <span>Wellbeing Activities</span>
                   </li>
                 </ul>
-                <div className="mt-8">
-                  <button onClick={() => document.getElementById('sales-contact')?.scrollIntoView({ behavior: 'smooth' })} className="w-full block py-3 rounded-xl bg-slate-900 text-white text-sm font-semibold text-center hover:bg-slate-800 transition-colors duration-200 cursor-pointer">
-                    Contact sales
-                  </button>
-                </div>
               </div>
 
               {/* Professional Column */}
@@ -622,11 +649,6 @@ export default function InstitutionsPage() {
                     <span className="w-[18px] text-center shrink-0">—</span>
                   </li>
                 </ul>
-                <div className="mt-8">
-                  <button onClick={() => document.getElementById('sales-contact')?.scrollIntoView({ behavior: 'smooth' })} className="w-full block py-3 rounded-xl bg-slate-900 text-white text-sm font-semibold text-center hover:bg-slate-800 transition-colors duration-200 cursor-pointer">
-                    Contact sales
-                  </button>
-                </div>
               </div>
 
               {/* Institution Column */}
@@ -650,11 +672,6 @@ export default function InstitutionsPage() {
                     <span>Custom Programme</span>
                   </li>
                 </ul>
-                <div className="mt-8">
-                  <button onClick={() => document.getElementById('sales-contact')?.scrollIntoView({ behavior: 'smooth' })} className="w-full block py-3 rounded-xl bg-slate-900 text-white text-sm font-semibold text-center hover:bg-slate-800 transition-colors duration-200 cursor-pointer">
-                    Contact sales
-                  </button>
-                </div>
               </div>
 
               {/* Community Column */}
@@ -677,10 +694,69 @@ export default function InstitutionsPage() {
                     <span className="w-[18px] text-center shrink-0">—</span>
                   </li>
                 </ul>
-                <div className="mt-8">
-                  <a href="#sales-contact" className="w-full block py-3 rounded-xl bg-slate-900 text-white text-sm font-semibold text-center hover:bg-slate-800 transition-colors duration-200">
-                    Contact sales
-                  </a>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Single Unified Contact Sales Button */}
+          <div className="mt-8 sm:mt-10 flex justify-center">
+            <button
+              onClick={() => document.getElementById('sales-contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-semibold text-sm sm:text-base transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
+            >
+              <span>Contact Sales</span>
+              <span className="text-base leading-none">→</span>
+            </button>
+          </div>
+
+          {/* Institutional Per Student Cost & Contract Terms Card */}
+          <div className="mt-8 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 lg:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center divide-y md:divide-y-0 md:divide-x divide-slate-100">
+              
+              {/* Left Column: Per Student Cost */}
+              <div className="md:col-span-5 flex flex-col justify-center">
+                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400 mb-3">
+                  Per Student Cost
+                </span>
+                <div className="flex flex-wrap items-baseline gap-2">
+                  <span className="text-sm sm:text-base font-semibold text-slate-600">
+                    Optimized up from
+                  </span>
+                  <span className="text-3xl sm:text-4xl font-extrabold text-[#FF6B00] tracking-tight">
+                    ₹3,996
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm font-medium text-slate-500 mt-2">
+                  for fully-loaded support
+                </p>
+              </div>
+
+              {/* Right Column: Contract Terms */}
+              <div className="md:col-span-7 pt-6 md:pt-0 md:pl-8 lg:pl-12 flex flex-col justify-center">
+                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400 mb-4">
+                  Contract Terms
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  {/* Engagement Period */}
+                  <div className="bg-[#FAF9F6] rounded-xl p-4 border border-slate-100/80">
+                    <p className="text-xs font-semibold text-slate-500 mb-1">
+                      Engagement Period
+                    </p>
+                    <p className="text-sm font-bold text-slate-900">
+                      Yearly contract, renewable
+                    </p>
+                  </div>
+
+                  {/* Payment Structure */}
+                  <div className="bg-[#FAF9F6] rounded-xl p-4 border border-slate-100/80">
+                    <p className="text-xs font-semibold text-slate-500 mb-1">
+                      Payment Structure
+                    </p>
+                    <p className="text-sm font-bold text-slate-900">
+                      70% upfront payment
+                    </p>
+                  </div>
                 </div>
               </div>
 

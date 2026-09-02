@@ -328,57 +328,38 @@ export default function Home() {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="w-full max-w-xl mx-auto mb-16 sm:mb-20 px-2 sm:px-0 relative z-30"
                 >
-                  <form onSubmit={handleGuestChatSubmit} className="flex items-center gap-3 w-full">
-                    <div 
-                      onClick={() => handleGuestChatSubmit()}
-                      className="relative flex-1 flex items-center bg-white rounded-full border border-white/80 shadow-md hover:shadow-lg focus-within:shadow-lg focus-within:border-orange-200 transition-all duration-300 px-2 py-1.5 sm:py-2 cursor-pointer"
+                  <div className="flex items-center gap-3 w-full">
+                    {/* Clickable AI Bot Navigation Bar */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        window.location.href = "https://app-heyattrangi.vercel.app/patient/ai-bot";
+                      }}
+                      className="relative flex-1 flex items-center justify-between bg-white rounded-full border border-white/80 shadow-md hover:shadow-lg hover:border-orange-200 active:scale-[0.99] transition-all duration-300 px-4 sm:px-6 py-2 sm:py-2.5 cursor-pointer text-left select-none group"
+                      aria-label="Open Hey Attrangi Bot"
                     >
-                      <input
-                        id="hero-ai-input"
-                        type="text"
-                        placeholder="Tell me what's on your mind..."
-                        value={guestChatMsg}
-                        onChange={(e) => setGuestChatMsg(e.target.value)}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleGuestChatSubmit();
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            handleGuestChatSubmit();
-                          }
-                        }}
-                        className="w-full pl-4 pr-12 py-2 text-slate-800 placeholder-slate-400 bg-transparent border-none outline-none text-sm sm:text-base cursor-pointer"
-                      />
-                      <button
-                        id="hero-ai-send-btn"
-                        type="submit"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleGuestChatSubmit();
-                        }}
-                        className="absolute right-2 sm:right-3 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-900 hover:bg-slate-800 text-white transition-all duration-200 active:scale-95 shadow-sm cursor-pointer"
-                        aria-label="Send message"
-                      >
+                      <span className="text-slate-400 text-sm sm:text-base font-normal truncate">
+                        Tell me what&apos;s on your mind...
+                      </span>
+                      <div className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-900 group-hover:bg-slate-800 text-white transition-all duration-200 shadow-sm shrink-0 ml-2">
                         <Send className="w-4 h-4 ml-0.5" />
-                      </button>
-                    </div>
+                      </div>
+                    </button>
 
                     {/* Microphone Button */}
-                    <div className="relative">
+                    <div className="relative shrink-0">
                       <button
                         type="button"
                         onClick={() => {
                           window.location.href = "https://app-heyattrangi.vercel.app/patient/ai-bot";
                         }}
                         className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md hover:shadow-lg active:scale-95 transition-all duration-200 hover:scale-105 cursor-pointer"
-                        aria-label="Voice Input"
+                        aria-label="Voice Input - Open Bot"
                       >
                         <Mic className="w-5 h-5" />
                       </button>
                     </div>
-                  </form>
+                  </div>
                 </motion.div>
               </div>
 
@@ -389,13 +370,13 @@ export default function Home() {
                 transition={{ duration: 1.2, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full flex justify-center"
               >
-                <div className="relative w-full max-w-6xl rounded-t-2xl sm:rounded-t-3xl border border-white/70 shadow-[0_-15px_30px_rgba(0,0,0,0.03),0_20px_40px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-500 hover:translate-y-[-6px] bg-white/95">
+                <div className="relative w-full max-w-6xl h-auto md:h-[420px] lg:h-[480px] rounded-t-2xl sm:rounded-t-3xl border border-white/70 shadow-[0_-15px_30px_rgba(0,0,0,0.03),0_20px_40px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-500 hover:translate-y-[-6px] bg-white/95">
                   <Image
                     src="https://res.cloudinary.com/dxoiluua8/image/upload/v1788297342/Landing_screen_bb9waq.png"
                     alt="Hey Attrangi Platform Interface"
                     width={1920}
                     height={1080}
-                    className="w-full h-auto block"
+                    className="w-full h-auto md:h-full md:object-cover md:object-top block"
                     priority
                   />
                 </div>

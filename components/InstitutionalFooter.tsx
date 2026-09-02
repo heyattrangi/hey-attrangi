@@ -3,12 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function InstitutionalFooter({ className = "" }: { className?: string }) {
-  const currentYear = new Date().getFullYear();
-
   return (
     <footer className={`w-full bg-white border-t border-slate-200/80 py-16 px-4 sm:px-6 lg:px-8 select-text ${className}`}>
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-16 pb-12 border-b border-slate-100">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-16">
           
           {/* Brand Column */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
@@ -115,24 +113,7 @@ export default function InstitutionalFooter({ className = "" }: { className?: st
 
         </div>
 
-        {/* Bottom Bar: Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
-          <p>© {currentYear} Atrangi Pvt Ltd. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <Link href="/privacy-policy" className="hover:text-slate-800 transition-colors">
-              Privacy
-            </Link>
-            <Link href="/terms-and-conditions" className="hover:text-slate-800 transition-colors">
-              Terms
-            </Link>
-            <Link href="/terms?section=refund" className="hover:text-slate-800 transition-colors">
-              Refund
-            </Link>
-          </div>
-        </div>
-
       </div>
     </footer>
   );
 }
-

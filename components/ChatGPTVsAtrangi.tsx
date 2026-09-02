@@ -57,15 +57,12 @@ export default function ChatGPTVsAtrangi() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-[42px] font-bold text-slate-800 tracking-tight leading-tight select-text">
-            <span className="text-slate-500 font-semibold">ChatGPT</span>{" "}
+            <span className="text-slate-500 font-semibold">Other AI chats</span>{" "}
             <span className="text-slate-400 font-serif italic text-2xl sm:text-3xl px-1">vs</span>{" "}
             <span className="text-[#111827] font-extrabold">Hey Attrangi</span>
           </h2>
-          <p className="mt-4 text-sm sm:text-base text-slate-500 font-medium max-w-xl mx-auto">
-            Traditional AI gives you walls of text. Atrangi guides you through interactive, clinically-validated exercises when you need support the most.
-          </p>
         </div>
 
         {/* Comparison Grid */}
@@ -85,7 +82,7 @@ export default function ChatGPTVsAtrangi() {
                 <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center">
                   <Bot className="w-3.5 h-3.5 text-slate-500" />
                 </div>
-                <span className="text-xs font-bold text-slate-600">ChatGPT</span>
+                <span className="text-xs font-bold text-slate-600">Other AI chats</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-bold text-red-500/80 tracking-wider uppercase bg-red-50 px-2 py-0.5 rounded-md">
@@ -163,7 +160,7 @@ export default function ChatGPTVsAtrangi() {
                     <div className="bg-white border border-red-100 rounded-2xl rounded-tl-none p-3 flex flex-col gap-1 select-text shadow-sm">
                       <span className="text-[11px] font-bold text-red-600 flex items-center gap-1">
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                        ChatGPT Limitations
+                        Other AI Limitations
                       </span>
                       <p className="text-[11px] text-red-700/80 leading-relaxed font-medium italic">
                         I can&apos;t create interactive exercises, but here&apos;s how you might set one up yourself...
@@ -196,7 +193,7 @@ export default function ChatGPTVsAtrangi() {
 
             {/* Input Bar Mockup */}
             <div className="mt-6 bg-white border border-slate-200/80 rounded-2xl p-2 flex items-center justify-between shadow-sm select-none">
-              <span className="text-xs text-slate-400 ml-2 font-medium">Message ChatGPT...</span>
+              <span className="text-xs text-slate-400 ml-2 font-medium">Message Other AI...</span>
               <div className="w-7 h-7 rounded-xl bg-slate-100 flex items-center justify-center">
                 <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 10l7-7m0 0l7 7m-7-7v18" />

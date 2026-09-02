@@ -71,21 +71,39 @@ export default function PricingPlan() {
             className="bg-white rounded-[32px] p-8 sm:p-10 border border-slate-100 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.07)] flex flex-col justify-between transition-all duration-300 hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-1"
           >
             <div>
-              <h3 style={{ width: '100%', height: 'auto', fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 900, fontSize: '32px', lineHeight: '36px', color: '#111111', flex: 'none', order: 0, flexGrow: 0 }} className="mb-3">
-                Free
+              <h3 style={{ width: '100%', height: 'auto', fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 900, fontSize: '24px', lineHeight: '28px', color: '#111111', flex: 'none', order: 0, flexGrow: 0 }} className="mb-3">
+                Start checking in
               </h3>
-              <p className="text-base sm:text-lg text-slate-700 font-medium leading-relaxed">
-                Full access to all wellness features
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  fontSize: "17.2345px",
+                  lineHeight: "140%",
+                  color: "#444444",
+                }}
+                className="select-text"
+              >
+                Free limited access to AI Companion
               </p>
             </div>
 
-            <div className="mt-16 sm:mt-20 pt-4">
-              <div className="flex items-baseline gap-1 mb-8">
-                <span className="text-4xl sm:text-5xl font-extrabold text-[#020618] tracking-tight">
-                  ₹0
-                </span>
-                <span className="text-sm font-medium text-slate-500 ml-1">
-                  /month
+            <div className="mt-12 sm:mt-16 pt-4">
+              <div className="mb-8">
+                <span
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontStyle: "normal",
+                    fontWeight: 800,
+                    fontSize: "54.5758px",
+                    lineHeight: "66px",
+                    color: "#111111",
+                    display: "inline-block",
+                  }}
+                  className="select-text tracking-tight"
+                >
+                  Free
                 </span>
               </div>
 
