@@ -11,30 +11,30 @@ import {
   Mail,
   Phone,
   Building2,
-  Briefcase,
   Calendar,
-  Clock,
-  CheckCircle2,
   AlertCircle,
   Download,
-  Users,
   Inbox,
   ArrowUpDown,
-  Filter,
   Trash2,
 } from "lucide-react";
 
 interface Submission {
   id: string;
-  firstName: string;
-  lastName: string;
+  instituteName?: string | null;
+  instituteType?: string | null;
+  otherInstituteType?: string | null;
+  mobileNumber?: string | null;
   email: string;
+  // Legacy fields
+  firstName?: string | null;
+  lastName?: string | null;
   phoneNumber?: string | null;
-  organization: string;
+  organization?: string | null;
   role?: string | null;
   message?: string | null;
   hearAboutUs?: string | null;
-  termsAccepted: boolean;
+  termsAccepted?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -46,6 +46,7 @@ export default function AdminHeyAttrangiPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const [selectedSubmission, setSelectedSubmission] = useState<Submission | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const fetchSubmissions = async () => {
     setLoading(true);
@@ -64,8 +65,6 @@ export default function AdminHeyAttrangiPage() {
       setLoading(false);
     }
   };
-
-  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handleDeleteSubmission = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this submission? This cannot be undone.")) {
@@ -96,24 +95,36 @@ export default function AdminHeyAttrangiPage() {
     fetchSubmissions();
   }, [sortOrder]);
 
+  // Helpers to resolve unified institute data
+  const getInstituteName = (s: Submission) => {
+    return s.instituteName || s.organization || `${s.firstName || ""} ${s.lastName || ""}`.trim() || "N/A";
+  };
+
+  const getInstituteTypeDisplay = (s: Submission) => {
+    if (s.instituteType === "Other" && s.otherInstituteType) {
+      return `Other — ${s.otherInstituteType}`;
+    }
+    return s.instituteType || s.role || "N/A";
+  };
+
+  const getMobileNumber = (s: Submission) => {
+    return s.mobileNumber || s.phoneNumber || "";
+  };
+
   // Client-side filtered list
   const filteredSubmissions = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
     if (!q) return submissions;
     return submissions.filter((item) => {
-      const fullName = `${item.firstName} ${item.lastName}`.toLowerCase();
+      const name = getInstituteName(item).toLowerCase();
+      const type = getInstituteTypeDisplay(item).toLowerCase();
       const email = (item.email || "").toLowerCase();
-      const org = (item.organization || "").toLowerCase();
-      const role = (item.role || "").toLowerCase();
-      const phone = (item.phoneNumber || "").toLowerCase();
-      const hear = (item.hearAboutUs || "").toLowerCase();
+      const phone = getMobileNumber(item).toLowerCase();
       return (
-        fullName.includes(q) ||
+        name.includes(q) ||
+        type.includes(q) ||
         email.includes(q) ||
-        org.includes(q) ||
-        role.includes(q) ||
-        phone.includes(q) ||
-        hear.includes(q)
+        phone.includes(q)
       );
     });
   }, [submissions, searchQuery]);
@@ -121,13 +132,13 @@ export default function AdminHeyAttrangiPage() {
   // Statistics
   const stats = useMemo(() => {
     const total = submissions.length;
-    const uniqueOrgs = new Set(submissions.map((s) => s.organization.trim().toLowerCase())).size;
+    const uniqueInstitutes = new Set(submissions.map((s) => getInstituteName(s).toLowerCase())).size;
     const now = new Date();
     const last7Days = submissions.filter((s) => {
       const d = new Date(s.createdAt);
       return (now.getTime() - d.getTime()) / (1000 * 3600 * 24) <= 7;
     }).length;
-    return { total, uniqueOrgs, last7Days };
+    return { total, uniqueInstitutes, last7Days };
   }, [submissions]);
 
   // Export to CSV
@@ -135,29 +146,21 @@ export default function AdminHeyAttrangiPage() {
     if (!filteredSubmissions.length) return;
     const headers = [
       "ID",
-      "First Name",
-      "Last Name",
-      "Email",
-      "Phone Number",
-      "Organization",
-      "Role",
-      "Message",
-      "Heard About Us",
-      "Terms Accepted",
+      "Institute Name",
+      "Type of Institute",
+      "Other Institute Type",
+      "Mobile Number",
+      "Email Address",
       "Submitted At",
     ];
 
     const rows = filteredSubmissions.map((s) => [
       `"${s.id}"`,
-      `"${s.firstName.replace(/"/g, '""')}"`,
-      `"${s.lastName.replace(/"/g, '""')}"`,
+      `"${getInstituteName(s).replace(/"/g, '""')}"`,
+      `"${(s.instituteType || s.role || "").replace(/"/g, '""')}"`,
+      `"${(s.otherInstituteType || "").replace(/"/g, '""')}"`,
+      `"${getMobileNumber(s).replace(/"/g, '""')}"`,
       `"${s.email.replace(/"/g, '""')}"`,
-      `"${(s.phoneNumber || "").replace(/"/g, '""')}"`,
-      `"${s.organization.replace(/"/g, '""')}"`,
-      `"${(s.role || "").replace(/"/g, '""')}"`,
-      `"${(s.message || "").replace(/"/g, '""')}"`,
-      `"${(s.hearAboutUs || "").replace(/"/g, '""')}"`,
-      s.termsAccepted ? "Yes" : "No",
       `"${new Date(s.createdAt).toLocaleString()}"`,
     ]);
 
@@ -165,125 +168,135 @@ export default function AdminHeyAttrangiPage() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `heyattrangi-contact-submissions-${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute("download", `hey_attrangi_institution_inquiries_${new Date().toISOString().split("T")[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  const formatDate = (dateStr: string) => {
-    try {
-      const d = new Date(dateStr);
-      return d.toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    } catch {
-      return dateStr;
-    }
+  const formatDate = (isoString: string) => {
+    const d = new Date(isoString);
+    return d.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-[#FF6B00]/20 selection:text-[#FF6B00]">
-      {/* Top Header */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+    <div className="min-h-screen bg-[#F8F9FB] text-slate-800 antialiased font-sans">
+      {/* Top Admin Navbar */}
+      <header className="sticky top-0 z-40 bg-white border-b border-slate-200/80 shadow-2xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link href="/" className="inline-flex items-center gap-2 group cursor-pointer">
+            <Link href="/" className="flex items-center gap-2">
               <Image
                 src="https://res.cloudinary.com/dbjv95prc/image/upload/v1784004218/Group_16_t94j4m.png"
-                alt="Hey Attrangi logo"
+                alt="Hey Attrangi Logo"
                 width={32}
                 height={32}
-                className="w-8 h-8 object-contain group-hover:scale-105 transition-transform"
+                className="w-8 h-8 object-contain"
               />
-              <span className="text-lg font-extrabold text-slate-900 tracking-tight">
+              <span className="font-extrabold text-lg text-slate-900 tracking-tight">
                 Hey Attrangi
               </span>
             </Link>
-            <span className="text-slate-300 font-light">|</span>
-            <div className="flex items-center gap-2">
-              <span className="bg-orange-100 text-[#FF6B00] text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                Admin
-              </span>
-              <h1 className="text-sm sm:text-base font-bold text-slate-800 hidden sm:inline-block">
-                Contact Submissions
-              </h1>
-            </div>
+            <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase bg-orange-100 text-[#FF6B00]">
+              ADMIN
+            </span>
+            <span className="text-slate-400 font-light hidden sm:inline">|</span>
+            <span className="text-sm font-semibold text-slate-700 hidden sm:inline">
+              Institution Contact Submissions
+            </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <button
               onClick={fetchSubmissions}
               disabled={loading}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-95 rounded-lg transition-all cursor-pointer disabled:opacity-60"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors cursor-pointer disabled:opacity-50"
               title="Refresh submissions"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-[#FF6B00]" : ""}`} />
-              <span className="hidden sm:inline">Refresh</span>
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-[#FF6B00]" : "text-slate-500"}`} />
+              <span className="hidden xs:inline">Refresh</span>
             </button>
-            {filteredSubmissions.length > 0 && (
-              <button
-                onClick={handleExportCSV}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-[#FF6B00] hover:bg-orange-600 active:scale-95 rounded-lg shadow-xs transition-all cursor-pointer"
-                title="Export submissions to CSV"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Export CSV</span>
-              </button>
-            )}
+
+            <button
+              onClick={handleExportCSV}
+              disabled={filteredSubmissions.length === 0}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#FF6B00] hover:bg-orange-600 text-white text-xs font-bold transition-all shadow-xs active:scale-95 cursor-pointer disabled:opacity-40 disabled:pointer-events-none"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Export CSV</span>
+            </button>
           </div>
         </div>
       </header>
 
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        {/* Stats Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
+        
+        {/* KPI / Stats Row */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
+          {/* Card 1: Total Submissions */}
+          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-orange-50 text-[#FF6B00] flex items-center justify-center shrink-0">
               <Inbox className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Submissions</p>
-              <h3 className="text-2xl font-extrabold text-slate-900 mt-0.5">{stats.total}</h3>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                Total Submissions
+              </span>
+              <span className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                {loading ? "—" : stats.total}
+              </span>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
+          {/* Card 2: Unique Institutes */}
+          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
               <Building2 className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Organizations</p>
-              <h3 className="text-2xl font-extrabold text-slate-900 mt-0.5">{stats.uniqueOrgs}</h3>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                Institutes
+              </span>
+              <span className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                {loading ? "—" : stats.uniqueInstitutes}
+              </span>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
+          {/* Card 3: Past 7 Days */}
+          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-              <Clock className="w-6 h-6" />
+              <Calendar className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Past 7 Days</p>
-              <h3 className="text-2xl font-extrabold text-slate-900 mt-0.5">{stats.last7Days}</h3>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                Past 7 Days
+              </span>
+              <span className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                {loading ? "—" : stats.last7Days}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Search & Sort Filter Bar */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between">
-          <div className="relative w-full sm:w-80">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+        {/* Search & Filter Controls */}
+        <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-2xs flex flex-col sm:flex-row gap-3 items-center justify-between">
+          {/* Search Input */}
+          <div className="relative w-full sm:w-96">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search by name, email, org..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-sm text-slate-900 placeholder-slate-400 rounded-xl border border-slate-200 focus:outline-none focus:border-[#FF6B00] transition-colors"
+              placeholder="Search by institute, type, email, mobile..."
+              className="w-full pl-9.5 pr-4 py-2 text-xs sm:text-sm bg-slate-50/80 hover:bg-slate-50 focus:bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-[#FF6B00] transition-colors"
             />
             {searchQuery && (
               <button
@@ -295,35 +308,27 @@ export default function AdminHeyAttrangiPage() {
             )}
           </div>
 
-          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-              <ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />
-              <span>Sort:</span>
-              <select
-                value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value as "newest" | "oldest")}
-                className="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-medium rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#FF6B00] cursor-pointer"
-              >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-              </select>
-            </div>
+          {/* Sort Dropdown */}
+          <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+            <ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-xs font-semibold text-slate-500">Sort:</span>
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as "newest" | "oldest")}
+              className="text-xs font-semibold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-[#FF6B00] cursor-pointer"
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+            </select>
           </div>
         </div>
 
-        {/* Content Section: Table / Loading / Error / Empty */}
-        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+        {/* Submissions Table Card */}
+        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
           {loading ? (
-            <div className="p-12 space-y-4">
-              <div className="flex items-center justify-center gap-3 text-slate-500 text-sm">
-                <span className="w-5 h-5 border-2 border-[#FF6B00] border-t-transparent rounded-full animate-spin"></span>
-                <span>Loading submissions from MongoDB...</span>
-              </div>
-              <div className="space-y-3 max-w-2xl mx-auto pt-4">
-                <div className="h-8 bg-slate-100 rounded-lg animate-pulse"></div>
-                <div className="h-8 bg-slate-100 rounded-lg animate-pulse"></div>
-                <div className="h-8 bg-slate-100 rounded-lg animate-pulse"></div>
-              </div>
+            <div className="p-16 text-center space-y-3">
+              <div className="w-10 h-10 border-3 border-[#FF6B00] border-t-transparent rounded-full animate-spin mx-auto"></div>
+              <p className="text-xs font-semibold text-slate-500">Loading submissions from MongoDB...</p>
             </div>
           ) : error ? (
             <div className="p-12 text-center space-y-4">
@@ -349,7 +354,7 @@ export default function AdminHeyAttrangiPage() {
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
                 {searchQuery
-                  ? `No submissions matched your search query "${searchQuery}". Try searching for another name or organization.`
+                  ? `No submissions matched your search query "${searchQuery}". Try searching for another name or keyword.`
                   : "When potential clients submit the Contact Us form on your website, their inquiries will automatically appear here."}
               </p>
               {searchQuery && (
@@ -366,13 +371,11 @@ export default function AdminHeyAttrangiPage() {
               <table className="w-full text-left text-xs sm:text-sm border-collapse">
                 <thead>
                   <tr className="bg-slate-50/80 border-b border-slate-200/80 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                    <th className="py-3.5 px-4 font-bold">Name</th>
-                    <th className="py-3.5 px-4 font-bold">Email</th>
-                    <th className="py-3.5 px-4 font-bold hidden md:table-cell">Phone</th>
-                    <th className="py-3.5 px-4 font-bold">Organization</th>
-                    <th className="py-3.5 px-4 font-bold hidden lg:table-cell">Role</th>
-                    <th className="py-3.5 px-4 font-bold hidden xl:table-cell">Heard About Us</th>
-                    <th className="py-3.5 px-4 font-bold">Submitted Date</th>
+                    <th className="py-3.5 px-4 font-bold">Institute Name</th>
+                    <th className="py-3.5 px-4 font-bold">Type of Institute</th>
+                    <th className="py-3.5 px-4 font-bold">Mobile Number</th>
+                    <th className="py-3.5 px-4 font-bold">Email Address</th>
+                    <th className="py-3.5 px-4 font-bold">Submitted Date & Time</th>
                     <th className="py-3.5 px-4 text-right font-bold">Action</th>
                   </tr>
                 </thead>
@@ -382,9 +385,36 @@ export default function AdminHeyAttrangiPage() {
                       key={item.id}
                       className="hover:bg-orange-50/40 transition-colors duration-150 group"
                     >
+                      {/* Institute Name */}
                       <td className="py-3.5 px-4 font-semibold text-slate-900 whitespace-nowrap">
-                        {item.firstName} {item.lastName}
+                        <div className="flex items-center gap-2">
+                          <Building2 className="w-4 h-4 text-[#FF6B00] shrink-0" />
+                          <span>{getInstituteName(item)}</span>
+                        </div>
                       </td>
+
+                      {/* Institute Type */}
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200/60">
+                          {getInstituteTypeDisplay(item)}
+                        </span>
+                      </td>
+
+                      {/* Mobile Number */}
+                      <td className="py-3.5 px-4 whitespace-nowrap text-slate-700 font-medium">
+                        {getMobileNumber(item) ? (
+                          <a
+                            href={`tel:${getMobileNumber(item)}`}
+                            className="hover:text-[#FF6B00] transition-colors"
+                          >
+                            {getMobileNumber(item)}
+                          </a>
+                        ) : (
+                          <span className="text-slate-400">—</span>
+                        )}
+                      </td>
+
+                      {/* Email Address */}
                       <td className="py-3.5 px-4 whitespace-nowrap">
                         <a
                           href={`mailto:${item.email}`}
@@ -393,33 +423,13 @@ export default function AdminHeyAttrangiPage() {
                           {item.email}
                         </a>
                       </td>
-                      <td className="py-3.5 px-4 whitespace-nowrap text-slate-600 hidden md:table-cell">
-                        {item.phoneNumber ? (
-                          <a href={`tel:${item.phoneNumber}`} className="hover:text-[#FF6B00]">
-                            {item.phoneNumber}
-                          </a>
-                        ) : (
-                          <span className="text-slate-400">—</span>
-                        )}
-                      </td>
-                      <td className="py-3.5 px-4 whitespace-nowrap font-medium text-slate-800">
-                        {item.organization}
-                      </td>
-                      <td className="py-3.5 px-4 whitespace-nowrap text-slate-600 hidden lg:table-cell">
-                        {item.role || <span className="text-slate-400">—</span>}
-                      </td>
-                      <td className="py-3.5 px-4 whitespace-nowrap hidden xl:table-cell">
-                        {item.hearAboutUs ? (
-                          <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700">
-                            {item.hearAboutUs}
-                          </span>
-                        ) : (
-                          <span className="text-slate-400">—</span>
-                        )}
-                      </td>
+
+                      {/* Submitted Date */}
                       <td className="py-3.5 px-4 whitespace-nowrap text-xs text-slate-500">
                         {formatDate(item.createdAt)}
                       </td>
+
+                      {/* Actions */}
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-2">
                           <button
@@ -460,27 +470,26 @@ export default function AdminHeyAttrangiPage() {
         </div>
       </main>
 
-      {/* View Details Modal / Drawer */}
+      {/* View Details Modal */}
       {selectedSubmission && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4 sm:p-6 overflow-y-auto">
-          <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
             {/* Modal Header */}
             <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="bg-[#FF6B00] text-white text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full tracking-wider">
-                    Inquiry Details
+                    Institution Inquiry
                   </span>
                   <span className="text-xs text-slate-300">
                     ID: {selectedSubmission.id}
                   </span>
                 </div>
                 <h2 className="text-xl font-bold text-white tracking-tight">
-                  {selectedSubmission.firstName} {selectedSubmission.lastName}
+                  {getInstituteName(selectedSubmission)}
                 </h2>
                 <p className="text-xs text-slate-300 mt-0.5">
-                  {selectedSubmission.organization}
-                  {selectedSubmission.role ? ` • ${selectedSubmission.role}` : ""}
+                  {getInstituteTypeDisplay(selectedSubmission)}
                 </p>
               </div>
 
@@ -504,13 +513,13 @@ export default function AdminHeyAttrangiPage() {
                   <Mail className="w-4 h-4" />
                   <span>Reply via Email ({selectedSubmission.email})</span>
                 </a>
-                {selectedSubmission.phoneNumber && (
+                {getMobileNumber(selectedSubmission) && (
                   <a
-                    href={`tel:${selectedSubmission.phoneNumber}`}
+                    href={`tel:${getMobileNumber(selectedSubmission)}`}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-colors cursor-pointer"
                   >
                     <Phone className="w-4 h-4" />
-                    <span>Call ({selectedSubmission.phoneNumber})</span>
+                    <span>Call ({getMobileNumber(selectedSubmission)})</span>
                   </a>
                 )}
               </div>
@@ -518,9 +527,23 @@ export default function AdminHeyAttrangiPage() {
               {/* Information Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/80 p-4 rounded-xl border border-slate-100 text-xs">
                 <div>
-                  <span className="text-slate-400 font-semibold block uppercase tracking-wider text-[10px]">Full Name</span>
+                  <span className="text-slate-400 font-semibold block uppercase tracking-wider text-[10px]">Institute Name</span>
                   <span className="text-slate-900 font-bold text-sm">
-                    {selectedSubmission.firstName} {selectedSubmission.lastName}
+                    {getInstituteName(selectedSubmission)}
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-slate-400 font-semibold block uppercase tracking-wider text-[10px]">Type of Institute</span>
+                  <span className="text-slate-900 font-bold text-sm">
+                    {getInstituteTypeDisplay(selectedSubmission)}
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-slate-400 font-semibold block uppercase tracking-wider text-[10px]">Mobile Number</span>
+                  <span className="text-slate-800 font-medium text-sm">
+                    {getMobileNumber(selectedSubmission) || "Not provided"}
                   </span>
                 </div>
 
@@ -531,43 +554,7 @@ export default function AdminHeyAttrangiPage() {
                   </a>
                 </div>
 
-                <div>
-                  <span className="text-slate-400 font-semibold block uppercase tracking-wider text-[10px]">Phone Number</span>
-                  <span className="text-slate-800 font-medium text-sm">
-                    {selectedSubmission.phoneNumber || "Not provided"}
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-slate-400 font-semibold block uppercase tracking-wider text-[10px]">Organization</span>
-                  <span className="text-slate-900 font-bold text-sm">
-                    {selectedSubmission.organization}
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-slate-400 font-semibold block uppercase tracking-wider text-[10px]">Role / Position</span>
-                  <span className="text-slate-800 font-medium text-sm">
-                    {selectedSubmission.role || "Not provided"}
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-slate-400 font-semibold block uppercase tracking-wider text-[10px]">How Heard About Us</span>
-                  <span className="text-slate-800 font-medium text-sm">
-                    {selectedSubmission.hearAboutUs || "Not specified"}
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-slate-400 font-semibold block uppercase tracking-wider text-[10px]">Terms Acceptance</span>
-                  <span className="inline-flex items-center gap-1.5 text-emerald-700 font-bold text-xs mt-0.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    Accepted
-                  </span>
-                </div>
-
-                <div>
+                <div className="sm:col-span-2">
                   <span className="text-slate-400 font-semibold block uppercase tracking-wider text-[10px]">Submitted Date & Time</span>
                   <span className="text-slate-800 font-medium text-xs mt-0.5 block">
                     {formatDate(selectedSubmission.createdAt)}
@@ -575,23 +562,30 @@ export default function AdminHeyAttrangiPage() {
                 </div>
               </div>
 
-              {/* Message Block */}
-              <div>
-                <span className="text-xs font-bold text-slate-800 uppercase tracking-wider block mb-2">
-                  Message / Details
-                </span>
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 text-slate-800 text-sm leading-relaxed whitespace-pre-wrap font-normal">
-                  {selectedSubmission.message ? (
-                    selectedSubmission.message
-                  ) : (
-                    <span className="text-slate-400 italic">No additional message provided.</span>
-                  )}
+              {/* Legacy message if present */}
+              {selectedSubmission.message && (
+                <div>
+                  <span className="text-xs font-bold text-slate-800 uppercase tracking-wider block mb-2">
+                    Additional Message
+                  </span>
+                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 text-slate-800 text-sm leading-relaxed whitespace-pre-wrap font-normal">
+                    {selectedSubmission.message}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Modal Footer */}
-            <div className="bg-slate-50 border-t border-slate-100 p-4 flex items-center justify-end">
+            <div className="bg-slate-50 border-t border-slate-100 p-4 flex items-center justify-between">
+              <button
+                onClick={() => handleDeleteSubmission(selectedSubmission.id)}
+                disabled={deletingId === selectedSubmission.id}
+                className="px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer flex items-center gap-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete Submission</span>
+              </button>
+
               <button
                 onClick={() => setSelectedSubmission(null)}
                 className="px-5 py-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors cursor-pointer"

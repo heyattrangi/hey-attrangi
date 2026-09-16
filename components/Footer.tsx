@@ -53,6 +53,7 @@ export default function Footer({ className = "" }: { className?: string }) {
           <div className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-5 gap-y-2 max-w-2xl text-slate-800/80 text-xs font-medium mb-6 sm:mb-7 select-text">
             <Link href="/privacy-policy" className="hover:text-orange-600 transition-colors font-bold select-text">Privacy</Link>
             <Link href="/terms-and-conditions" className="hover:text-orange-600 transition-colors font-bold select-text">Terms</Link>
+            <Link href="/refund-policy" className="hover:text-orange-600 transition-colors font-bold select-text">Refund Policy</Link>
             <Link href="/ai-assistance-consent" className="hover:text-orange-600 transition-colors select-text">AI Assistance Consent</Link>
             <Link href="/ai-transparency-safety-responsible-ai" className="hover:text-orange-600 transition-colors select-text">AI Transparency</Link>
             <Link href="/data-processing-consent" className="hover:text-orange-600 transition-colors select-text">Data Processing Consent</Link>

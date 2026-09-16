@@ -46,13 +46,6 @@ const teamMembers: TeamMember[] = [
   },
   {
     id: 5,
-    name: "Harshith",
-    role: "Cofounder & CTO",
-    image: "https://res.cloudinary.com/dbjv95prc/image/upload/v1783953345/harshit_zamcqo.png",
-    linkedin: "https://www.linkedin.com/in/harshith-daraboina-14105a2b2/",
-  },
-  {
-    id: 6,
     name: "Kalyan Jakkoju",
     role: "Cofounder & CMO",
     image: "https://res.cloudinary.com/dbjv95prc/image/upload/v1783953398/kalyan_mel0dq.png",
@@ -212,10 +205,11 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Team Members Grid */}
-          <div className="relative w-full max-w-5xl mx-auto px-4 mt-12">
-            <div className="flex flex-wrap justify-center gap-x-8 gap-y-10">
-              {teamMembers.map((member) => {
+          {/* Team Members Grid — 3 on Top Row, 2 on Bottom Row */}
+          <div className="relative w-full max-w-4xl mx-auto px-4 mt-12 space-y-8 sm:space-y-10">
+            {/* Top Row: 3 Members */}
+            <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-10 md:gap-14">
+              {teamMembers.slice(0, 3).map((member) => {
                 const isActive = activeMemberId === member.id;
                 return (
                   <div
@@ -223,17 +217,71 @@ export default function AboutPage() {
                     onClick={() => setActiveMemberId(isActive ? null : member.id)}
                     className="relative group cursor-pointer flex flex-col items-center select-none"
                   >
-                    {/* Outer Circle with light-green border/background */}
-                    <div className="w-36 h-36 sm:w-40 sm:h-40 md:w-44 md:h-44 rounded-full bg-[#e2edd9] p-1 flex items-center justify-center relative overflow-hidden transition-all duration-300 transform group-hover:scale-105 hover:shadow-lg">
-                      {/* Inner Profile Image container */}
-                      <div className="w-full h-full rounded-full overflow-hidden relative bg-white">
-                        <Image
-                          src={member.image}
-                          alt={member.name}
-                          fill
-                          className="object-cover transition-all duration-300"
-                        />
+                    {/* Circle Image container */}
+                    <div className="w-36 h-36 sm:w-40 sm:h-40 md:w-44 md:h-44 rounded-full relative overflow-hidden transition-all duration-300 transform group-hover:scale-105 hover:shadow-lg bg-transparent">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover transition-all duration-300"
+                      />
+
+                      {/* Dark overlay showing name and designation on Click or Hover */}
+                      <div
+                        className={`absolute inset-0 bg-[#2d2d2d]/90 rounded-full flex flex-col items-center justify-center p-4 text-center transition-all duration-300 ${
+                          isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                        }`}
+                      >
+                        <h3 className="text-white font-bold text-[13px] sm:text-sm md:text-base mb-1 px-1 leading-tight">
+                          {member.name}
+                        </h3>
+                        <p className="text-[#e2edd9] text-[10px] sm:text-[11px] md:text-xs font-semibold leading-tight mb-2">
+                          {member.role}
+                          {member.description && (
+                            <span className="block text-[9px] sm:text-[10px] opacity-80 mt-0.5 font-normal">
+                              {member.description}
+                            </span>
+                          )}
+                        </p>
+                        {member.linkedin && (
+                          <a
+                            href={member.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-white hover:text-orange-400 transition-colors p-1"
+                            aria-label={`${member.name}'s LinkedIn`}
+                          >
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M19 0H5C2.238 0 0 2.238 0 5v14c0 2.762 2.238 5 5 5h14c2.762 0 5-2.238 5-5V5c0-2.762-2.238-5-5-5zM7.119 20.452H3.56V9h3.559v11.452zM5.34 7.433a2.062 2.062 0 110-4.124 2.062 2.062 0 010 4.124zM20.452 20.452h-3.558v-5.569c0-1.328-.027-3.037-1.852-3.037-1.854 0-2.136 1.446-2.136 2.94v5.666H9.351V9h3.414v1.561h.047c.476-.902 1.636-1.852 3.369-1.852 3.603 0 4.271 2.37 4.271 5.456v6.287z" />
+                            </svg>
+                          </a>
+                        )}
                       </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Bottom Row: 2 Members */}
+            <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-10 md:gap-14">
+              {teamMembers.slice(3, 5).map((member) => {
+                const isActive = activeMemberId === member.id;
+                return (
+                  <div
+                    key={member.id}
+                    onClick={() => setActiveMemberId(isActive ? null : member.id)}
+                    className="relative group cursor-pointer flex flex-col items-center select-none"
+                  >
+                    {/* Circle Image container */}
+                    <div className="w-36 h-36 sm:w-40 sm:h-40 md:w-44 md:h-44 rounded-full relative overflow-hidden transition-all duration-300 transform group-hover:scale-105 hover:shadow-lg bg-transparent">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover transition-all duration-300"
+                      />
 
                       {/* Dark overlay showing name and designation on Click or Hover */}
                       <div

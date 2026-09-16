@@ -104,7 +104,7 @@ export default function InstitutionalFooter({ className = "" }: { className?: st
                 </Link>
               </li>
               <li>
-                <Link href="/terms?section=refund" className="hover:text-[#FF6B00] transition-colors">
+                <Link href="/refund-policy" className="hover:text-[#FF6B00] transition-colors">
                   Refund Policy
                 </Link>
               </li>

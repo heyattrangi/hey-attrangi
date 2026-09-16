@@ -12,11 +12,14 @@ export async function GET(request: Request) {
     if (search) {
       whereClause = {
         OR: [
-          { firstName: { contains: search, mode: "insensitive" } },
-          { lastName: { contains: search, mode: "insensitive" } },
+          { instituteName: { contains: search, mode: "insensitive" } },
+          { instituteType: { contains: search, mode: "insensitive" } },
+          { otherInstituteType: { contains: search, mode: "insensitive" } },
+          { mobileNumber: { contains: search, mode: "insensitive" } },
           { email: { contains: search, mode: "insensitive" } },
           { organization: { contains: search, mode: "insensitive" } },
-          { role: { contains: search, mode: "insensitive" } },
+          { firstName: { contains: search, mode: "insensitive" } },
+          { lastName: { contains: search, mode: "insensitive" } },
           { phoneNumber: { contains: search, mode: "insensitive" } },
         ],
       };

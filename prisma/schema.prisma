@@ -141,17 +141,22 @@ model RawTrialData {
 }
 
 model ContactSubmission {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  firstName     String
-  lastName      String
-  email         String
-  phoneNumber   String?
-  organization  String
-  role          String?
-  message       String?
-  hearAboutUs   String?
-  termsAccepted Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  instituteName      String?
+  instituteType      String?
+  otherInstituteType String?
+  mobileNumber       String?
+  email              String
+  // Backward compatibility fields for legacy records
+  firstName          String?
+  lastName           String?
+  phoneNumber        String?
+  organization       String?
+  role               String?
+  message            String?
+  hearAboutUs        String?
+  termsAccepted      Boolean? @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 

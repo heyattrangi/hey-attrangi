@@ -53,7 +53,7 @@ const FAQS_DATA = [
     answer: (
       <>
         We're committed to your mental wellness journey. If you feel your current specialist isn't the right fit, or if you're experiencing technical issues, please contact our support team. See our{" "}
-        <Link href="/terms?section=refund" className="underline font-medium hover:text-orange-600 transition-colors">
+        <Link href="/refund-policy" className="underline font-medium hover:text-orange-600 transition-colors">
           Refund Policy
         </Link>{" "}
         for more details.

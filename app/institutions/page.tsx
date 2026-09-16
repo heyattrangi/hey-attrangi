@@ -55,15 +55,11 @@ const FAQS_DATA = [
 export default function InstitutionsPage() {
   const [openFAQIndex, setOpenFAQIndex] = useState<number | null>(0);
   const [contactForm, setContactForm] = useState({
-    firstName: "",
-    lastName: "",
+    instituteName: "",
+    instituteType: "",
+    otherInstituteType: "",
+    mobileNumber: "",
     email: "",
-    phoneNumber: "",
-    organization: "",
-    role: "",
-    message: "",
-    hearAbout: "",
-    acceptTerms: false
   });
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [formMessage, setFormMessage] = useState("");
@@ -72,36 +68,56 @@ export default function InstitutionsPage() {
     setOpenFAQIndex(openFAQIndex === index ? null : index);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target;
-    if (type === "checkbox") {
-      const { checked } = e.target as HTMLInputElement;
-      setContactForm((prev) => ({ ...prev, [name]: checked }));
-    } else {
-      setContactForm((prev) => ({ ...prev, [name]: value }));
-    }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setContactForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9+\-\s()]{7,20}$/;
 
-    if (!contactForm.firstName.trim() || !contactForm.lastName.trim() || !contactForm.email.trim() || !contactForm.organization.trim()) {
+    if (!contactForm.instituteName.trim()) {
       setFormStatus("error");
-      setFormMessage("Please fill out all required fields marked with *.");
+      setFormMessage("Please enter your institute name.");
+      return;
+    }
+
+    if (!contactForm.instituteType.trim()) {
+      setFormStatus("error");
+      setFormMessage("Please select the type of institute.");
+      return;
+    }
+
+    if (contactForm.instituteType === "Other" && !contactForm.otherInstituteType.trim()) {
+      setFormStatus("error");
+      setFormMessage("Please specify your institute type.");
+      return;
+    }
+
+    if (!contactForm.mobileNumber.trim()) {
+      setFormStatus("error");
+      setFormMessage("Please enter your mobile number.");
+      return;
+    }
+
+    if (!phoneRegex.test(contactForm.mobileNumber.trim())) {
+      setFormStatus("error");
+      setFormMessage("Please enter a valid mobile number.");
+      return;
+    }
+
+    if (!contactForm.email.trim()) {
+      setFormStatus("error");
+      setFormMessage("Please enter your email address.");
       return;
     }
 
     if (!emailRegex.test(contactForm.email.trim())) {
       setFormStatus("error");
       setFormMessage("Please enter a valid email address.");
-      return;
-    }
-
-    if (!contactForm.acceptTerms) {
-      setFormStatus("error");
-      setFormMessage("Please accept the Terms to continue.");
       return;
     }
 
@@ -113,15 +129,11 @@ export default function InstitutionsPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName: contactForm.firstName.trim(),
-          lastName: contactForm.lastName.trim(),
+          instituteName: contactForm.instituteName.trim(),
+          instituteType: contactForm.instituteType.trim(),
+          otherInstituteType: contactForm.otherInstituteType.trim(),
+          mobileNumber: contactForm.mobileNumber.trim(),
           email: contactForm.email.trim(),
-          phoneNumber: contactForm.phoneNumber.trim(),
-          organization: contactForm.organization.trim(),
-          role: contactForm.role.trim(),
-          message: contactForm.message.trim(),
-          hearAboutUs: contactForm.hearAbout,
-          termsAccepted: contactForm.acceptTerms,
         }),
       });
 
@@ -129,25 +141,21 @@ export default function InstitutionsPage() {
 
       if (response.ok && data.success) {
         setFormStatus("success");
-        setFormMessage(data.message || "Thank you! Our friendly team has received your message and will get back to you shortly.");
+        setFormMessage(data.message || "Thank you! Your information has been submitted successfully.");
         setContactForm({
-          firstName: "",
-          lastName: "",
+          instituteName: "",
+          instituteType: "",
+          otherInstituteType: "",
+          mobileNumber: "",
           email: "",
-          phoneNumber: "",
-          organization: "",
-          role: "",
-          message: "",
-          hearAbout: "",
-          acceptTerms: false
         });
       } else {
         setFormStatus("error");
-        setFormMessage(data.message || "Failed to submit your message. Please try again.");
+        setFormMessage(data.message || "Something went wrong. Please try again.");
       }
     } catch {
       setFormStatus("error");
-      setFormMessage("Network error. Please check your connection or email us directly at support@heyattrangi.com.");
+      setFormMessage("Unable to send your inquiry. Please check your internet connection.");
     }
   };
 
@@ -831,154 +839,110 @@ export default function InstitutionsPage() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleContactSubmit} className="space-y-5">
+                <form onSubmit={handleContactSubmit} className="space-y-4 sm:space-y-5">
                   {formStatus === "error" && (
                     <div className="p-3.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 font-medium">
                       {formMessage}
                     </div>
                   )}
 
-                  {/* Row 1: First name & Last name */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-800 mb-1.5">First name *</label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={contactForm.firstName}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 focus:outline-none focus:border-[#FF6B00] transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-800 mb-1.5">Last name *</label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={contactForm.lastName}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 focus:outline-none focus:border-[#FF6B00] transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Row 2: Email & Phone number */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-800 mb-1.5">Email *</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={contactForm.email}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 focus:outline-none focus:border-[#FF6B00] transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-800 mb-1.5">Phone number</label>
-                      <input
-                        type="tel"
-                        name="phoneNumber"
-                        value={contactForm.phoneNumber}
-                        onChange={handleInputChange}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 focus:outline-none focus:border-[#FF6B00] transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Row 3: Your Organization & Your Role */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-800 mb-1.5">Your Organization *</label>
-                      <input
-                        type="text"
-                        name="organization"
-                        value={contactForm.organization}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 focus:outline-none focus:border-[#FF6B00] transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-800 mb-1.5">Your Role</label>
-                      <input
-                        type="text"
-                        name="role"
-                        value={contactForm.role}
-                        onChange={handleInputChange}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 focus:outline-none focus:border-[#FF6B00] transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Row 4: Textarea */}
+                  {/* 1. Institute Name * */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-800 mb-1.5">How can we help you? (optional )</label>
-                    <textarea
-                      name="message"
-                      value={contactForm.message}
-                      onChange={handleInputChange}
-                      rows={4}
-                      placeholder="Type your message..."
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 focus:outline-none focus:border-[#FF6B00] resize-none transition-colors"
-                    ></textarea>
-                  </div>
-
-                  {/* Row 5: Radio Options (2 Columns) */}
-                  <div className="pt-1">
-                    <label className="block text-xs font-semibold text-slate-800 mb-2.5">How did you hear about us?</label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2.5 gap-x-6">
-                      {[
-                        { id: "first-choice", label: "First choice" },
-                        { id: "second-choice", label: "Second choice" },
-                        { id: "third-choice", label: "Third choice" },
-                        { id: "fourth-choice", label: "Fourth choice" },
-                        { id: "fifth-choice", label: "Fifth choice" },
-                        { id: "other", label: "Other" }
-                      ].map((item) => (
-                        <label key={item.id} className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 cursor-pointer select-none">
-                          <input
-                            type="radio"
-                            name="hearAbout"
-                            value={item.label}
-                            checked={contactForm.hearAbout === item.label}
-                            onChange={handleInputChange}
-                            className="w-4 h-4 text-[#FF6B00] focus:ring-[#FF6B00] border-slate-300"
-                          />
-                          <span>{item.label}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Row 6: Terms Checkbox */}
-                  <div className="pt-1">
-                    <label className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 cursor-pointer select-none">
-                      <input
-                        type="checkbox"
-                        name="acceptTerms"
-                        checked={contactForm.acceptTerms}
-                        onChange={handleInputChange}
-                        className="w-4 h-4 rounded text-[#FF6B00] focus:ring-[#FF6B00] border-slate-300"
-                      />
-                      <span>
-                        I accept the{" "}
-                        <Link href="/terms" className="underline hover:text-[#FF6B00]">
-                          Terms
-                        </Link>
-                      </span>
+                    <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                      Institute Name *
                     </label>
+                    <input
+                      type="text"
+                      name="instituteName"
+                      value={contactForm.instituteName}
+                      onChange={handleInputChange}
+                      placeholder="Enter institute name"
+                      required
+                      className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#FF6B00] transition-colors"
+                    />
                   </div>
 
-                  {/* Row 7: Compact Orange Submit Button */}
+                  {/* 2. Type of Institute * */}
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                      Type of Institute *
+                    </label>
+                    <select
+                      name="instituteType"
+                      value={contactForm.instituteType}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 focus:outline-none focus:border-[#FF6B00] transition-colors cursor-pointer"
+                    >
+                      <option value="" disabled>Select institute type</option>
+                      <option value="School">School</option>
+                      <option value="College">College</option>
+                      <option value="University">University</option>
+                      <option value="Coaching Center">Coaching Center</option>
+                      <option value="Training Institute">Training Institute</option>
+                      <option value="Educational Institution">Educational Institution</option>
+                      <option value="Undergraduate Institution">Undergraduate Institution</option>
+                      <option value="Postgraduate Institution">Postgraduate Institution</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+
+                  {/* Conditional: Please specify institute type (if Other selected) */}
+                  {contactForm.instituteType === "Other" && (
+                    <div className="pt-0.5">
+                      <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                        Please specify institute type *
+                      </label>
+                      <input
+                        type="text"
+                        name="otherInstituteType"
+                        value={contactForm.otherInstituteType}
+                        onChange={handleInputChange}
+                        placeholder="Please specify institute type"
+                        required
+                        className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#FF6B00] transition-colors"
+                      />
+                    </div>
+                  )}
+
+                  {/* 3. Mobile Number * */}
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                      Mobile Number *
+                    </label>
+                    <input
+                      type="tel"
+                      name="mobileNumber"
+                      value={contactForm.mobileNumber}
+                      onChange={handleInputChange}
+                      placeholder="Enter mobile number"
+                      required
+                      className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#FF6B00] transition-colors"
+                    />
+                  </div>
+
+                  {/* 4. Email Address * */}
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={contactForm.email}
+                      onChange={handleInputChange}
+                      placeholder="Enter email address"
+                      required
+                      className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-slate-300 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#FF6B00] transition-colors"
+                    />
+                  </div>
+
+                  {/* Submit Button */}
                   <div className="pt-2">
                     <button
                       type="submit"
                       disabled={formStatus === "submitting"}
-                      className="px-8 py-2.5 rounded-lg bg-[#E65C00] hover:bg-orange-600 active:scale-[0.98] text-white font-medium text-sm transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
+                      className="px-8 py-2.5 sm:py-3 rounded-lg bg-[#E65C00] hover:bg-orange-600 active:scale-[0.98] text-white font-medium text-sm transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
                     >
                       {formStatus === "submitting" ? (
                         <>
